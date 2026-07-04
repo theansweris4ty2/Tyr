@@ -34,7 +34,7 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player){
         produce(tile, player_ptr)
         fmt.printf("Crops: %d \n Lumber: %d \n Ore: %d \n", player_ptr.crops, player_ptr.lumber, player_ptr.ore)
     }  
-    // TODO: Add logic to print this information to screen and change to IsMouseButtonDown
+    // TODO: 
     if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, tile.rect){
         
         fmt.printf("%s: %d", tile.kind, tile.production_value)

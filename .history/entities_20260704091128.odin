@@ -1,5 +1,4 @@
 package Tyr
-import rl "vendor:raylib"
 
 TILE_WIDTH :: 50
 TILE_HEIGHT :: 50
