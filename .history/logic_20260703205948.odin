@@ -1,0 +1,46 @@
+package main
+import "core:fmt"
+// import "core:math/rand"
+import rl "vendor:raylib"
+
+
+
+
+
+
+
+   
+
+// roll_dice :: proc() -> (i32, i32, i32){
+//     roll1:= rand.int32_range(0,6) 
+//     roll2 := rand.int32_range(0,6) 
+//     roll3 := rand.int32_range(0,6) 
+
+//     return roll1, roll2, roll3
+// }
+
+produce :: proc(tile: Tile, player: ^Player){
+
+    switch tile.kind {
+        case "farm":
+            player^.crops += tile.production_value
+        case "forest":
+            player^.lumber += tile.production_value
+        case "ore":
+            player^.ore += tile.production_value
+        
+    }
+
+}
+
+player_action :: proc(tiles: [dynamic]Tile, player_ptr: ^Player, buttons1: [dynamic; 6]Button, point: [2]f32){
+    dice1_index: i32 = 0
+    dice2_index :i32 = 0
+    dice3_index :i32 = 0
+    
+// invade_tile :: proc(tiles: [dynamic]Tile){
+//     invaded := rand.int_range(0, len(tiles) - 1)
+//     tiles[invaded].invaded = true
+
+
+// }

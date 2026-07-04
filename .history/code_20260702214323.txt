@@ -1,0 +1,500 @@
+package roguelike
+import "core:container/intrusive/list"
+import "core:fmt"
+import "core:math"
+import "core:math/rand"
+import "core:slice"
+import rl "vendor:raylib"
+
+
+TILE_WIDTH :: 8
+TILE_HEIGHT :: 8
+Vector2f :: [2]f32
+
+TILE :: struct {
+	x:        f32,
+	y:        f32,
+	width:    i32,
+	height:   i32,
+	collider: bool,
+	source_x: f32,
+	source_y: f32,
+	velo_x:   f32,
+	velo_y:   f32,
+}
+
+
+Level :: [dynamic]TILE
+
+
+path_tiles: Level = {}
+wall_tiles: Level = {}
+door_tiles: Level = {}
+
+
+draw_map :: proc(grass_tiles: Level, door_tiles: Level, tile_map: rl.Texture2D) {
+	for tile in grass_tiles {
+		rl.DrawTextureRec(
+			tile_map,
+			rl.Rectangle{tile.source_x, tile.source_y, TILE_WIDTH, TILE_HEIGHT},
+			{tile.x, tile.y},
+			rl.WHITE,
+		)
+	}
+	for tile in door_tiles {
+		rl.DrawTextureRec(
+			tile_map,
+			rl.Rectangle{tile.source_x, tile.source_y, TILE_WIDTH, TILE_HEIGHT},
+			{tile.x, tile.y},
+			rl.WHITE,
+		)
+	}
+
+
+}
+
+
+generate_map :: proc() -> (Level, Level) {
+	i: int = 0
+	j: int = 0
+	l: int = 0
+	m: f32 = 0
+	n: f32 = 0
+	o: int = 0
+	p: int = 0
+	collider: bool
+	x: f32
+	y: f32
+	velo_x: f32
+	velo_y: f32
+	terrain_tiles: Level = {}
+	grass_tiles: Level = {}
+	tree_tiles: Level = {}
+	water_tiles: Level = {}
+	door_tiles: Level = {}
+
+
+	for j < 8 {
+		x := rand.float32_range(0, 150) * 8
+		y := rand.float32_range(0, 110) * 8
+		append(&tree_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, true, 0, 0, 0, 0})
+		j += 1
+
+	}
+	j = 0
+	for j < 8 {
+		x := rand.float32_range(0, 150) * 8
+		y := rand.float32_range(0, 110) * 8
+		append(&water_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, true, 0, 0, 0, 0})
+		j += 1
+
+	}
+	j = 0
+	for j < 6 {
+		x := rand.float32_range(0, 150) * 8
+		y := rand.float32_range(0, 110) * 8
+		append(&door_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, true, 72, 81, 0, 0})
+		j += 1
+
+	}
+
+
+	for l < 1000 {
+		x := rand.float32_range(0, 110) * 8
+		y := rand.float32_range(0, 110) * 8
+		if x < 300 {
+			velo_x = 3
+			velo_y = -1
+		}
+		if x > 300 {
+			velo_x = -3
+			velo_y = 1
+
+		}
+
+
+		append(&terrain_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, false, 0, 0, velo_x, velo_y})
+		l += 1
+	}
+
+
+	for i < 1500 {
+
+
+		for &tile in terrain_tiles {
+			if tile.width > 0 {
+				move_direction := rand.int_max(4)
+				switch move_direction {
+				case 0:
+					velo_x *= -1
+					velo_y = velo_y
+				case 1:
+					velo_x = velo_x
+					velo_y *= -1
+				case 2:
+					velo_x *= -1
+					velo_y *= -1
+				case 3:
+					velo_x = velo_x
+					velo_y = velo_y
+				}
+
+				tile.x += tile.velo_x
+				tile.y += tile.velo_y
+
+				if tile.x <= 0 || tile.x + TILE_WIDTH >= SCREEN_WIDTH {
+					tile.velo_x = tile.velo_x * -1
+				}
+
+				if tile.y <= 0 || tile.y + TILE_HEIGHT >= SCREEN_HEIGHT {
+					tile.velo_y = tile.velo_y * -1
+
+				}
+				for o < len(terrain_tiles) - 1 {
+					for p < len(terrain_tiles) - 1 {
+						if rl.CheckCollisionRecs(
+							rl.Rectangle {
+								terrain_tiles[o].x,
+								terrain_tiles[o].y,
+								f32(terrain_tiles[o].width),
+								f32(terrain_tiles[o].height),
+							},
+							rl.Rectangle {
+								terrain_tiles[p].x,
+								terrain_tiles[p].y,
+								f32(terrain_tiles[p].width),
+								f32(terrain_tiles[p].height),
+							},
+						) {
+							terrain_tiles[p].velo_y *= -1
+							terrain_tiles[p].velo_x *= -1
+							terrain_tiles[o].velo_y *= -1
+							terrain_tiles[o].velo_x *= -1
+
+						}
+						p += 1
+					}
+					p = 0
+					o += 1
+				}
+
+				for core in tree_tiles {
+
+					if rl.CheckCollisionRecs(
+						   rl.Rectangle{core.x, core.y, f32(TILE_WIDTH), f32(TILE_HEIGHT)},
+						   rl.Rectangle{tile.x, tile.y, f32(TILE_WIDTH), f32(TILE_HEIGHT)},
+					   ) &&
+					   tile.width > 0 {
+						append(
+							&tree_tiles,
+							TILE{tile.x, tile.y, TILE_WIDTH, TILE_HEIGHT, true, 45, 45, 0, 0},
+						)
+						tile.width = 0
+						tile.height = 0
+
+					}
+				}
+				for water in water_tiles {
+
+					if rl.CheckCollisionRecs(
+						   rl.Rectangle{water.x, water.y, f32(TILE_WIDTH), f32(TILE_HEIGHT)},
+						   rl.Rectangle{tile.x, tile.y, f32(TILE_WIDTH), f32(TILE_HEIGHT)},
+					   ) &&
+					   tile.width > 0 {
+						append(
+							&water_tiles,
+							TILE{tile.x, tile.y, TILE_WIDTH, TILE_HEIGHT, true, 108, 72, 0, 0},
+						)
+						tile.width = 0
+						tile.height = 0
+
+					}
+				}
+
+			}
+
+		}
+
+
+		i += 1
+	}
+
+
+	for m < SCREEN_WIDTH / TILE_WIDTH {
+		for n < SCREEN_HEIGHT / TILE_HEIGHT {
+
+			x = m * 8
+			y = n * 8
+			tile_source := rand.int_max(3)
+
+			switch tile_source {
+			case 0 ..= 1:
+				append(&grass_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, false, 36, 36, 0, 0})
+			case 2:
+				append(&grass_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, false, 45, 36, 0, 0})
+
+			}
+			n += 1
+
+		}
+		m += 1
+		n = 0
+	}
+
+
+	for tile in tree_tiles {
+		for &wall_tile in grass_tiles {
+			if rl.CheckCollisionRecs(
+				rl.Rectangle{tile.x, tile.y, f32(tile.width), f32(tile.height)},
+				rl.Rectangle {
+					wall_tile.x,
+					wall_tile.y,
+					f32(wall_tile.width),
+					f32(wall_tile.height),
+				},
+			) {
+				wall_tile.source_x = 45
+				wall_tile.source_y = 45
+				wall_tile.collider = true
+			}
+		}
+	}
+	for tile in water_tiles {
+		for &wall_tile in grass_tiles {
+			if rl.CheckCollisionRecs(
+				rl.Rectangle{tile.x, tile.y, f32(tile.width), f32(tile.height)},
+				rl.Rectangle {
+					wall_tile.x,
+					wall_tile.y,
+					f32(wall_tile.width),
+					f32(wall_tile.height),
+				},
+			) {
+				wall_tile.source_x = 108
+				wall_tile.source_y = 72
+				wall_tile.collider = true
+			}
+		}
+	}
+
+
+	return grass_tiles, door_tiles
+
+}
+
+generate_dungeon :: proc() -> (Level, Level, Level) {
+
+	i: int = 0
+	j: int = 0
+	l: int = 0
+	m: f32 = 0
+	n: f32 = 0
+	o: int = 0
+	p: int = 0
+	collider: bool
+	x: f32
+	y: f32
+	velo_x: f32
+	velo_y: f32
+	room_tiles := generate_rooms()
+
+
+	for j < 6 {
+		x := rand.float32_range(0, 150) * 8
+		y := rand.float32_range(0, 110) * 8
+		append(&door_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, true, 81, 18, 0, 0})
+		j += 1
+
+	}
+
+
+	for m < SCREEN_WIDTH / TILE_WIDTH {
+		for n < SCREEN_HEIGHT / TILE_HEIGHT {
+
+			x = m * 8
+			y = n * 8
+
+
+			append(&wall_tiles, TILE{x, y, TILE_WIDTH, TILE_HEIGHT, true, 0, 27, 0, 0})
+			n += 1
+
+		}
+		m += 1
+		n = 0
+	}
+
+
+	for &tile in wall_tiles {
+		for &room_tile in room_tiles {
+			if rl.CheckCollisionRecs(
+				rl.Rectangle{tile.x, tile.y, f32(tile.width), f32(tile.height)},
+				rl.Rectangle {
+					room_tile.x,
+					room_tile.y,
+					f32(room_tile.width),
+					f32(room_tile.height),
+				},
+			) {
+				tile.source_x = 9
+				tile.source_y = 36
+				tile.collider = false
+			}
+		}
+
+		for &path_tile in path_tiles {
+			if rl.CheckCollisionRecs(
+				rl.Rectangle{tile.x, tile.y, f32(tile.width), f32(tile.height)},
+				rl.Rectangle {
+					path_tile.x,
+					path_tile.y,
+					f32(path_tile.width),
+					f32(path_tile.height),
+				},
+			) {
+				tile.source_x = 9
+				tile.source_y = 36
+				tile.collider = false
+			}
+		}
+	}
+
+
+	return wall_tiles, door_tiles, room_tiles
+
+}
+
+generate_rooms :: proc() -> Level {
+
+	rooms: Level = {}
+	room_tiles: [dynamic]TILE
+	walkers: Level = {}
+	i: int
+	j: int
+	walker_speed_x: f32
+	walker_speed_y: f32
+	room_cords: [dynamic]Vector2f = {}
+
+
+	for i < 20 {
+		points: Vector2f = {}
+
+		points.x = rand.float32_range(0, 1100)
+		points.y = rand.float32_range(0, 800)
+		append(&room_cords, Vector2f{points.x, points.y})
+		i += 1
+	}
+
+	i = 0
+	j = 0
+
+	for i < len(room_cords) - 1 {
+		temp_cord: Vector2f = {}
+		for j < len(room_cords) - 1 {
+			if room_cords[j].x > room_cords[j + 1].x {
+				temp_cord = Vector2f{room_cords[j].x, room_cords[j].y}
+				room_cords[j] = room_cords[j + 1]
+				room_cords[j + 1] = temp_cord
+			}
+			j += 1
+		}
+		i += 1
+	}
+
+
+	for cord in room_cords {
+		width := i32(rand.float32_range(50, 90))
+		height := i32(rand.float32_range(50, 90))
+		append(&rooms, TILE{cord.x, cord.y, width, height, false, 9, 36, 0, 0})
+	}
+
+
+	i = 0
+	j = 0
+
+
+	for room in rooms {
+		append(
+			&walkers,
+			TILE {
+				room.x + f32(room.width / 2),
+				room.y + f32(room.height / 2),
+				TILE_WIDTH,
+				TILE_HEIGHT,
+				false,
+				9,
+				36,
+				walker_speed_x,
+				walker_speed_y,
+			},
+		)
+
+	}
+
+	for i < 20 {
+		for j < 18 {
+			move_direction := rand.int_max(50)
+			append(
+				&path_tiles,
+				TILE {
+					walkers[i].x,
+					walkers[i].y,
+					TILE_WIDTH,
+					TILE_HEIGHT,
+					false,
+					9,
+					36,
+					walker_speed_x,
+					walker_speed_y,
+				},
+			)
+			walkers[i].x += walker_speed_x
+			walkers[i].y += walker_speed_y
+
+			if rl.CheckCollisionRecs(
+				rl.Rectangle {
+					walkers[i].x,
+					walkers[i].y,
+					f32(walkers[i].width),
+					f32(walkers[i].height),
+				},
+				rl.Rectangle {
+					rooms[j + 1].x,
+					rooms[j + 1].y,
+					f32(rooms[j + 1].width),
+					f32(rooms[j + 1].height),
+				},
+			) {
+				j += 1
+			}
+
+			if walkers[i].x < rooms[j + 1].x + f32(rooms[j + 1].width / 2) && move_direction == 0 {
+				walker_speed_x = 1
+				walker_speed_y = 0
+			} else if walkers[i].x > rooms[j + 1].x + f32(rooms[j + 1].width / 2) &&
+			   move_direction == 1 {
+				walker_speed_x = -1
+				walker_speed_y = 0
+			}
+			if walkers[i].y < rooms[j + 1].y + f32(rooms[j + 1].height / 2) &&
+			   move_direction == 2 {
+				walker_speed_y = 1
+				walker_speed_x = 0
+			} else if walkers[i].y > rooms[j + 1].y + f32(rooms[j + 1].height / 2) &&
+			   move_direction == 3 {
+				walker_speed_y = -1
+				walker_speed_x = 0
+			} else if move_direction > 3 {
+				walker_speed_y *= 1
+				walker_speed_x *= 1
+
+			}
+
+		}
+		i += 1
+	}
+
+	unordered_remove(&rooms, 19)
+
+	return rooms
+
+}
