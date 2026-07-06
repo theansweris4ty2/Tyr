@@ -148,11 +148,10 @@ battle_board :: proc(texture: rl.Texture,) -> [dynamic]Tile{
 }
 
 draw_board::proc(tiles:[dynamic]Tile){
-    for tile in tiles{
+    for tile in tiles
     rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
     rl.DrawRectangleLines(i32(tile.rect.x), i32(tile.rect.y), i32(tile.rect.width), i32(tile.rect.height), tile.border.color)
 } 
-}
 
 battle_board2 :: proc(texture1: rl.Texture, texture2: rl.Texture) -> [dynamic]Tile{
     tiles : [dynamic]Tile

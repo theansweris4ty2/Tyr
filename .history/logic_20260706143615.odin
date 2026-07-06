@@ -147,14 +147,14 @@ battle_board :: proc(texture: rl.Texture,) -> [dynamic]Tile{
     return tiles
 }
 
-draw_board::proc(tiles:[dynamic]Tile){
-    for tile in tiles{
+draw_board::proc(tiles:[dynamic]Tile, ){
+    for tile in tiles {
+        
     rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
     rl.DrawRectangleLines(i32(tile.rect.x), i32(tile.rect.y), i32(tile.rect.width), i32(tile.rect.height), tile.border.color)
 } 
 }
-
-battle_board2 :: proc(texture1: rl.Texture, texture2: rl.Texture) -> [dynamic]Tile{
+battle_board2 :: proc() -> [dynamic]Tile{
     tiles : [dynamic]Tile
     start_y: f32 = 500
     start_x: f32 = 100
@@ -168,16 +168,7 @@ battle_board2 :: proc(texture1: rl.Texture, texture2: rl.Texture) -> [dynamic]Ti
         
     }
     
-   for &tile in tiles {
-        terrain := rand.int_range(1,3)
-        switch terrain {
-            case 1:
-                tile.texture = texture1
-            case 2: 
-                tile.texture = texture2
-        }
-    
-}
-return tiles
+   
+    return tiles
 }
 

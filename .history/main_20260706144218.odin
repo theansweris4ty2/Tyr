@@ -36,7 +36,7 @@ battle_screen: bool
 
 for !rl.WindowShouldClose(){
     rl.BeginDrawing()
-    rl.ClearBackground(rl.BEIGE)
+    rl.ClearBackground(rl.WHITE)
     player_action(castle, town, tile_map, p_ptr)
 
 if rl.IsKeyPressed(.B){
@@ -48,7 +48,7 @@ if rl.IsKeyPressed(.B){
     }
 }
 if battle_screen{
-draw_board(battle_map)
+draw_board(battle_map, battlefield, battlefield2)
 }
 else {
     draw_map(tile_map)
