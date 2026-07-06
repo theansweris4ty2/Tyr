@@ -35,6 +35,7 @@ battle_screen: bool
 
 
 for !rl.WindowShouldClose(){
+    point := rl.GetMousePosition()
     rl.BeginDrawing()
     rl.ClearBackground(rl.WHITE)
     player_action(castle, town, tile_map, p_ptr)
@@ -48,6 +49,7 @@ draw_board(battle_map)
 else {
     draw_map(tile_map)
 }
+
 
 
 

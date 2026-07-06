@@ -26,10 +26,10 @@ produce :: proc(tile: Tile, player: ^Player){
 
 }
 
-player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dynamic]Tile, player_ptr: ^Player){
+player_action :: proc(texture: rl.Texture, tile_map: [dynamic]Tile, player_ptr: ^Player){
     point:= rl.GetMousePosition()
     for &tile in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 30, tile.rect.height - 30}){
         tile.texture = texture
         tile.border = {rl.RED, 3}
         produce(tile, player_ptr)
@@ -38,9 +38,9 @@ player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dyna
         
     }  
     // TODO: Add logic to print this information to screen and change to IsMouseButtonDown
-    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, tile.rect){
+        
         fmt.printf("%s: %d", tile.kind, tile.production_value)
-        tile.texture = texture2
 
     }  
 }
@@ -117,17 +117,17 @@ draw_map::proc(tile_map: [dynamic]Tile){
 }
 }
 
-battle_board :: proc(texture: rl.Texture,) -> [dynamic]Tile{
+build_board :: proc(texture: rl.Texture) -> [dynamic]Tile{
     tiles : [dynamic]Tile
     start_y: f32 = 500
     start_x: f32 = 100
     x: f32
     y: f32
     for i in 0..=4{
-        x = f32(i*100) + 50
+        x = f32(i*100) + 250
         for h in 0..=i {
             y = f32(h*100) + start_y
-            append(&tiles, Tile{{x, y, 100, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
+            append(&tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
         }
         start_y -= 50
         start_x += 50
@@ -135,10 +135,10 @@ battle_board :: proc(texture: rl.Texture,) -> [dynamic]Tile{
     start_y = 250
     columns: int = 5
     for i in 0..=5{
-        x = f32(i*100) + f32(550) 
+        x = f32(i*100) + f32(850) 
         for h in 0..=columns{
             y = f32(h*100) + start_y
-           append(&tiles, Tile{{x, y, 100, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
+           append(&tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
         }
         start_y += 50
         columns -= 1   

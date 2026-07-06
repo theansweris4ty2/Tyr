@@ -18,9 +18,9 @@ forest := rl.LoadTexture("assets/trees.png")
 castle := rl.LoadTexture("assets/castle.png")
 town := rl.LoadTexture("assets/town.png")
 battlefield := rl.LoadTexture("assets/battlefield.png")
-battlefield2 := rl.LoadTexture("assets/battlefield2.png")
+battlefield := rl.LoadTexture("assets/battlefield.png")
 defer rl.UnloadTexture(battlefield)
-defer rl.UnloadTexture(battlefield2)
+defer rl.UnloadTexture(battlefield)
 defer rl.UnloadTexture(town)
 defer rl.UnloadTexture(forest)
 defer rl.UnloadTexture(ore)
@@ -29,12 +29,12 @@ defer rl.UnloadTexture(water)
 defer rl.UnloadTexture(castle)
 tile_map:= generate_map(wheat, water, forest, ore)
 defer delete(tile_map)
-battle_map := battle_board(battlefield2)
-defer delete(battle_map)
+battle_map := battle_board(battlefield, battlefield2)
 battle_screen: bool
 
 
 for !rl.WindowShouldClose(){
+    point := rl.GetMousePosition()
     rl.BeginDrawing()
     rl.ClearBackground(rl.WHITE)
     player_action(castle, town, tile_map, p_ptr)
@@ -48,6 +48,7 @@ draw_board(battle_map)
 else {
     draw_map(tile_map)
 }
+
 
 
 

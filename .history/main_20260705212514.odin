@@ -29,12 +29,12 @@ defer rl.UnloadTexture(water)
 defer rl.UnloadTexture(castle)
 tile_map:= generate_map(wheat, water, forest, ore)
 defer delete(tile_map)
-battle_map := battle_board(battlefield2)
-defer delete(battle_map)
+battle_map := battle_board(battlefield, battlefield2)
 battle_screen: bool
 
 
 for !rl.WindowShouldClose(){
+    point := rl.GetMousePosition()
     rl.BeginDrawing()
     rl.ClearBackground(rl.WHITE)
     player_action(castle, town, tile_map, p_ptr)
@@ -48,6 +48,7 @@ draw_board(battle_map)
 else {
     draw_map(tile_map)
 }
+
 
 
 

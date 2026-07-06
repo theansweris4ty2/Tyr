@@ -26,21 +26,18 @@ produce :: proc(tile: Tile, player: ^Player){
 
 }
 
-player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dynamic]Tile, player_ptr: ^Player){
+player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player){
     point:= rl.GetMousePosition()
     for &tile in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
-        tile.texture = texture
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, tile.rect){
         tile.border = {rl.RED, 3}
         produce(tile, player_ptr)
         fmt.printf("Crops: %d \n Lumber: %d \n Ore: %d \n", player_ptr.crops, player_ptr.lumber, player_ptr.ore)
-       
-        
     }  
     // TODO: Add logic to print this information to screen and change to IsMouseButtonDown
-    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, tile.rect){
+        
         fmt.printf("%s: %d", tile.kind, tile.production_value)
-        tile.texture = texture2
 
     }  
 }
@@ -54,7 +51,7 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
             x:= f32(j % 24) * 50
             y:= f32(j/24) * 50
             production_value := rand.int32_range(1,5)
-            append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {rl.BLACK, 1}})
+            append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {}})
         }
 
         x: f32
@@ -63,21 +60,21 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
     forest_tiles: [dynamic; 30]Tile
     ore_tiles: [dynamic; 30]Tile
 
-    for i in 0..<30{
+    for i in 0..<50{
         x:= rand.float32_range(0, 1200) 
         y:= rand.float32_range(0, 900) 
-        append(&water_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "water", water, 0, false, false, false, {rl.BLACK, 1}})
+        append(&water_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "water", water, 0, false, false, false, {}})
     }
-    for i in 0..<20 {
+    for i in 0..<15 {
         x:= rand.float32_range(0, 24) * 50
         y:= rand.float32_range(0, 18) * 50
-         append(&forest_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "forest", forest, 0, false, false, false, {rl.BLACK, 1}})
+         append(&forest_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "forest", forest, 0, false, false, false, {}})
         
     }
     for i in 0..<20 {
         x:= rand.float32_range(0, 24) * 50
         y:= rand.float32_range(0, 18) * 50
-        append(&ore_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "ore", ore, 0, false, false, false, {rl.BLACK, 1}})
+        append(&ore_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "ore", ore, 0, false, false, false, {}})
         
     }
     for &tile in game_board {
@@ -115,42 +112,4 @@ draw_map::proc(tile_map: [dynamic]Tile){
     rl.DrawRectangleLinesEx(tile.rect, tile.border.thickness, tile.border.color)
 
 }
-}
-
-battle_board :: proc(texture: rl.Texture,) -> [dynamic]Tile{
-    tiles : [dynamic]Tile
-    start_y: f32 = 500
-    start_x: f32 = 100
-    x: f32
-    y: f32
-    for i in 0..=4{
-        x = f32(i*100) + 50
-        for h in 0..=i {
-            y = f32(h*100) + start_y
-            append(&tiles, Tile{{x, y, 100, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
-        }
-        start_y -= 50
-        start_x += 50
-    }
-    start_y = 250
-    columns: int = 5
-    for i in 0..=5{
-        x = f32(i*100) + f32(550) 
-        for h in 0..=columns{
-            y = f32(h*100) + start_y
-           append(&tiles, Tile{{x, y, 100, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
-        }
-        start_y += 50
-        columns -= 1   
-    }
-   
-    return tiles
-}
-
-draw_board::proc(tiles:[dynamic]Tile){
-    for tile in tiles {
-        
-    rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
-    rl.DrawRectangleLines(i32(tile.rect.x), i32(tile.rect.y), i32(tile.rect.width), i32(tile.rect.height), tile.border.color)
-} 
 }

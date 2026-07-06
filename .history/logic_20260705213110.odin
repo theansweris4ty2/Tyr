@@ -29,17 +29,17 @@ produce :: proc(tile: Tile, player: ^Player){
 player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dynamic]Tile, player_ptr: ^Player){
     point:= rl.GetMousePosition()
     for &tile in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 30, tile.rect.height - 30}){
         tile.texture = texture
-        tile.border = {rl.RED, 3}
+        // tile.border = {rl.RED, 3}
         produce(tile, player_ptr)
         fmt.printf("Crops: %d \n Lumber: %d \n Ore: %d \n", player_ptr.crops, player_ptr.lumber, player_ptr.ore)
        
         
     }  
     // TODO: Add logic to print this information to screen and change to IsMouseButtonDown
-    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
-        fmt.printf("%s: %d", tile.kind, tile.production_value)
+    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 30, tile.rect.height - 30}){
+        fmt.println("%s: %d", tile.kind, tile.production_value)
         tile.texture = texture2
 
     }  

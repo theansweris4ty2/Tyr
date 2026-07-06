@@ -39,7 +39,7 @@ player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dyna
     }  
     // TODO: Add logic to print this information to screen and change to IsMouseButtonDown
     if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
-        fmt.printf("%s: %d", tile.kind, tile.production_value)
+        fmt.println("%s: %d", tile.kind, tile.production_value)
         tile.texture = texture2
 
     }  

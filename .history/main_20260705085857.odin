@@ -15,39 +15,24 @@ water := rl.LoadTexture("assets/water.png")
 ore := rl.LoadTexture("assets/mountains.png")
 wheat := rl.LoadTexture("assets/wheat.png")
 forest := rl.LoadTexture("assets/trees.png")
-castle := rl.LoadTexture("assets/castle.png")
-town := rl.LoadTexture("assets/town.png")
-battlefield := rl.LoadTexture("assets/battlefield.png")
-battlefield2 := rl.LoadTexture("assets/battlefield2.png")
-defer rl.UnloadTexture(battlefield)
-defer rl.UnloadTexture(battlefield2)
-defer rl.UnloadTexture(town)
 defer rl.UnloadTexture(forest)
 defer rl.UnloadTexture(ore)
 defer rl.UnloadTexture(wheat)
 defer rl.UnloadTexture(water)
-defer rl.UnloadTexture(castle)
+x: f32
+y: f32
 tile_map:= generate_map(wheat, water, forest, ore)
 defer delete(tile_map)
-battle_map := battle_board(battlefield2)
-defer delete(battle_map)
-battle_screen: bool
+// buttons1, main_menu, stats_menu := create_ui()
 
 
 for !rl.WindowShouldClose(){
+    point := rl.GetMousePosition()
     rl.BeginDrawing()
     rl.ClearBackground(rl.WHITE)
-    player_action(castle, town, tile_map, p_ptr)
+    player_action(tile_map, p_ptr)
 
-if rl.IsKeyPressed(.B){
-    battle_screen = true
-}
-if battle_screen{
-draw_board(battle_map)
-}
-else {
-    draw_map(tile_map)
-}
+draw_map(tile_map)
 
 
 
