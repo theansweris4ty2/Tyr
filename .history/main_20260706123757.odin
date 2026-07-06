@@ -29,7 +29,7 @@ defer rl.UnloadTexture(water)
 defer rl.UnloadTexture(castle)
 tile_map:= generate_map(wheat, water, forest, ore)
 defer delete(tile_map)
-battle_map := battle_board2(battlefield2)
+battle_map := battle_board(battlefield2)
 defer delete(battle_map)
 battle_screen: bool
 

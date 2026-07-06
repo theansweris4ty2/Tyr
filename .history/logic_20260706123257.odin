@@ -135,7 +135,7 @@ battle_board :: proc(texture: rl.Texture,) -> [dynamic]Tile{
     start_y = 250
     columns: int = 5
     for i in 0..=5{
-        x = f32(i*150) + f32(800) 
+        x = f32(i*150) + f32(0) 
         for h in 0..=columns{
             y = f32(h*100) + start_y
            append(&tiles, Tile{{x, y, 150, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
@@ -154,21 +154,3 @@ draw_board::proc(tiles:[dynamic]Tile){
     rl.DrawRectangleLines(i32(tile.rect.x), i32(tile.rect.y), i32(tile.rect.width), i32(tile.rect.height), tile.border.color)
 } 
 }
-battle_board2 :: proc(texture: rl.Texture,) -> [dynamic]Tile{
-    tiles : [dynamic]Tile
-    start_y: f32 = 500
-    start_x: f32 = 100
-    x: f32
-    y: f32
-    for i in 0..<36{
-        x = f32(i % 6)*150 + 150
-        y = f32(i/6) *100 + 150
-        
-            append(&tiles, Tile{{x, y, 150, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
-        
-    }
-    
-   
-    return tiles
-}
-

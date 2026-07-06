@@ -8,7 +8,7 @@ WINDOW_WIDTH :: 1200
 WINDOW_HEIGHT :: 900
 
 main :: proc() {
-rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tyr")
+rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Map Maker")
 player: Player = {}
 p_ptr: ^Player = &player
 water := rl.LoadTexture("assets/water.png")
@@ -29,7 +29,7 @@ defer rl.UnloadTexture(water)
 defer rl.UnloadTexture(castle)
 tile_map:= generate_map(wheat, water, forest, ore)
 defer delete(tile_map)
-battle_map := battle_board2(battlefield2)
+battle_map := battle_board(battlefield2)
 defer delete(battle_map)
 battle_screen: bool
 
@@ -40,12 +40,8 @@ for !rl.WindowShouldClose(){
     player_action(castle, town, tile_map, p_ptr)
 
 if rl.IsKeyPressed(.B){
-    if !battle_screen {
+    if 
     battle_screen = true
-    }
-    else {
-        battle_screen = false
-    }
 }
 if battle_screen{
 draw_board(battle_map)

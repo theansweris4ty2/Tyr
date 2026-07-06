@@ -162,7 +162,7 @@ battle_board2 :: proc(texture: rl.Texture,) -> [dynamic]Tile{
     y: f32
     for i in 0..<36{
         x = f32(i % 6)*150 + 150
-        y = f32(i/6) *100 + 150
+        y = f32(i/6) *100 + 100
         
             append(&tiles, Tile{{x, y, 150, 100}, "battle", texture, 0,false, false, false, {rl.BLACK, 1}})
         
