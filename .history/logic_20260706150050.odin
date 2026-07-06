@@ -154,28 +154,27 @@ draw_board::proc(tiles:[dynamic]Tile){
 } 
 }
 
-battle_board2 :: proc(texture1: rl.Texture, texture2: rl.Texture, texture3: rl.Texture) -> [dynamic]Tile{
+battle_board2 :: proc(texture1: rl.Texture, texture2: rl.Texture, texture) -> [dynamic]Tile{
     tiles : [dynamic]Tile
-    
+    start_y: f32 = 500
+    start_x: f32 = 100
     x: f32
     y: f32
-    for i in 0..<49{
-        x = f32(i % 7)*150 + 75
-        y = f32(i/7) *100 + 100
+    for i in 0..<36{
+        x = f32(i % 6)*150 + 150
+        y = f32(i/6) *100 + 150
         
             append(&tiles, Tile{{x, y, 150, 100}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
         
     }
     
    for &tile in tiles {
-        terrain := rand.int_range(1,4)
+        terrain := rand.int_range(1,3)
         switch terrain {
             case 1:
                 tile.texture = texture1
             case 2: 
                 tile.texture = texture2
-            case 3: 
-                tile.texture = texture3
         }
     
 }
