@@ -28,6 +28,5 @@ Player::struct {
 }
 
 Troop_Tile::struct {
-    rect: rl.Rectangle,
-    texture: rl.Texture
+    
 }

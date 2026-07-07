@@ -27,7 +27,4 @@ Player::struct {
     crops: i32,
 }
 
-Troop_Tile::struct {
-    rect: rl.Rectangle,
-    texture: rl.Texture
-}
+Troop_Tile::

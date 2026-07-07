@@ -9,8 +9,6 @@ WINDOW_HEIGHT :: 900
 
 main :: proc() {
 rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tyr")
-troop_tiles: [dynamic]Troop_Tile
-defer delete(troop_tiles)
 player: Player = {}
 p_ptr: ^Player = &player
 water := rl.LoadTexture("assets/water.png")
@@ -23,8 +21,8 @@ battlefield1 := rl.LoadTexture("assets/battlefield1.png")
 battlefield2 := rl.LoadTexture("assets/battlefield2.png")
 battlefield3 := rl.LoadTexture("assets/battlefield3.png")
 battlefield4 := rl.LoadTexture("assets/battlefield4.png")
-infantry:= rl.LoadTexture("assets/infantry.png")
-defer rl.UnloadTexture(infantry)
+infantry:= rl.LoadTexture("assets/battlefield4.png")
+defer rl.UnloadTexture(battlefield1)
 defer rl.UnloadTexture(battlefield1)
 defer rl.UnloadTexture(battlefield2)
 defer rl.UnloadTexture(battlefield3)
@@ -56,15 +54,12 @@ if rl.IsKeyPressed(.B){
     }
 }
 if battle_screen{
-    draw_battle_board(battle_map)
-    for tile in troop_tiles {
-        rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
-    }
-    for &tile in battle_map {
-        point := rl.GetMousePosition()
-        if rl.IsMouseButtonPressed(.LEFT) {
-            if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
-            append(&troop_tiles, Troop_Tile{{tile.rect.x, tile.rect.y, 50, 75}, infantry})
+draw_battle_board(battle_map)
+for &tile in battle_map {
+    point := rl.GetMousePosition()
+    if rl.IsMouseButtonPressed(.LEFT) {
+        if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
+            tile.texture = infantry
         }
     }
     

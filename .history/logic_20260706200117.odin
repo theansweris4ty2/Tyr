@@ -147,42 +147,38 @@ draw_map::proc(tile_map: [dynamic]Tile){
 //     return tiles
 // }
 
+// draw_board::proc(tiles:[dynamic]Tile){
+//     for tile in tiles{
+//     rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
+//     rl.DrawRectangleLines(i32(tile.rect.x), i32(tile.rect.y), i32(tile.rect.width), i32(tile.rect.height), tile.border.color)
+// } 
+// }
 
-
-build_battle_board :: proc(texture1: rl.Texture, texture2: rl.Texture, texture3: rl.Texture, texture4: rl.Texture) -> [dynamic]Tile{
+build_battle_board :: proc(texture1: rl.Texture, texture2: rl.Texture, texture3: rl.Texture) -> [dynamic]Tile{
     tiles : [dynamic]Tile
     
     x: f32
     y: f32
-    for i in 0..<84{
-        x = f32(i % 12)*100 
-        y = f32(i/12) *75 + 200
+    for i in 0..<49{
+        x = f32(i % 7)*150 + 75
+        y = f32(i/7) *100 + 100
         
-            append(&tiles, Tile{{x, y, 100, 75}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
+            append(&tiles, Tile{{x, y, 150, 100}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
         
     }
     
    for &tile in tiles {
-        terrain := rand.int_range(1,10)
+        terrain := rand.int_range(1,7)
         switch terrain {
-            case 1..=3:
+            case 1..:
                 tile.texture = texture1
-            case 4..=5: 
+            case 2: 
                 tile.texture = texture2
-            case 6: 
+            case 3: 
                 tile.texture = texture3
-            case 7..=9:
-                tile.texture = texture4
         }
     
 }
 return tiles
-}
-
-draw_battle_board::proc(tiles:[dynamic]Tile){
-    for tile in tiles{
-    rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
-    rl.DrawRectangleLines(i32(tile.rect.x), i32(tile.rect.y), i32(tile.rect.width), i32(tile.rect.height), tile.border.color)
-} 
 }
 

@@ -9,7 +9,7 @@ WINDOW_HEIGHT :: 900
 
 main :: proc() {
 rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tyr")
-troop_tiles: [dynamic]Troop_Tile
+troop_tiles: [dynamic]rl.Texture
 defer delete(troop_tiles)
 player: Player = {}
 p_ptr: ^Player = &player
@@ -35,6 +35,7 @@ defer rl.UnloadTexture(ore)
 defer rl.UnloadTexture(wheat)
 defer rl.UnloadTexture(water)
 defer rl.UnloadTexture(castle)
+append(&troop_tiles, )
 tile_map:= generate_map(wheat, water, forest, ore)
 defer delete(tile_map)
 battle_map := build_battle_board(battlefield1, battlefield2, battlefield3, battlefield4)
@@ -56,15 +57,12 @@ if rl.IsKeyPressed(.B){
     }
 }
 if battle_screen{
-    draw_battle_board(battle_map)
-    for tile in troop_tiles {
-        rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
-    }
-    for &tile in battle_map {
-        point := rl.GetMousePosition()
-        if rl.IsMouseButtonPressed(.LEFT) {
-            if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
-            append(&troop_tiles, Troop_Tile{{tile.rect.x, tile.rect.y, 50, 75}, infantry})
+draw_battle_board(battle_map)
+for &tile in battle_map {
+    point := rl.GetMousePosition()
+    if rl.IsMouseButtonPressed(.LEFT) {
+        if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
+            tile.texture = infantry
         }
     }
     

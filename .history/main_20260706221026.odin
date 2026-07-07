@@ -56,14 +56,14 @@ if rl.IsKeyPressed(.B){
     }
 }
 if battle_screen{
-    draw_battle_board(battle_map)
     for tile in troop_tiles {
-        rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
+        rl.DrawTexture(tile.texture)
     }
-    for &tile in battle_map {
-        point := rl.GetMousePosition()
-        if rl.IsMouseButtonPressed(.LEFT) {
-            if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
+draw_battle_board(battle_map)
+for &tile in battle_map {
+    point := rl.GetMousePosition()
+    if rl.IsMouseButtonPressed(.LEFT) {
+        if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
             append(&troop_tiles, Troop_Tile{{tile.rect.x, tile.rect.y, 50, 75}, infantry})
         }
     }

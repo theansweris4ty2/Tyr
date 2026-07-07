@@ -154,11 +154,11 @@ build_battle_board :: proc(texture1: rl.Texture, texture2: rl.Texture, texture3:
     
     x: f32
     y: f32
-    for i in 0..<84{
-        x = f32(i % 12)*100 
-        y = f32(i/12) *75 + 200
+    for i in 0..<98{
+        x = f32(i % 14)*100 + 50
+        y = f32(i/14) *50 + 50
         
-            append(&tiles, Tile{{x, y, 100, 75}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
+            append(&tiles, Tile{{x, y, 100, 50}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
         
     }
     

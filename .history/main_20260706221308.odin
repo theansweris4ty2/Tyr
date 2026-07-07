@@ -63,7 +63,7 @@ if battle_screen{
     for &tile in battle_map {
         point := rl.GetMousePosition()
         if rl.IsMouseButtonPressed(.LEFT) {
-            if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
+        if rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}) {
             append(&troop_tiles, Troop_Tile{{tile.rect.x, tile.rect.y, 50, 75}, infantry})
         }
     }
