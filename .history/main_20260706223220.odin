@@ -46,9 +46,7 @@ for !rl.WindowShouldClose(){
     rl.BeginDrawing()
     rl.ClearBackground(rl.BEIGE)
    
-    if !battle_screen {
-         player_action(castle, town, tile_map, p_ptr)
-    }
+    if !battle
 
 if rl.IsKeyPressed(.B){
     if !battle_screen {
@@ -59,7 +57,7 @@ if rl.IsKeyPressed(.B){
     }
 }
 if battle_screen{
-    draw_map(battle_map)
+    draw_battle_board(battle_map)
     for tile in troop_tiles {
         rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
     }

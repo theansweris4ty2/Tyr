@@ -25,7 +25,7 @@ Player::struct {
     lumber: i32,
     troops: [dynamic]Troop_Tile,
     crops: i32,
-    territory: i32
+    territory: 
 }
 
 Troop_Tile::struct {

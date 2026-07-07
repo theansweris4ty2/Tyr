@@ -3,7 +3,7 @@ import "core:fmt"
 import "core:math/rand"
 import rl "vendor:raylib"
 
-
+// TODO: Write logic for battles
 roll_dice :: proc() -> (i32, i32, i32){
     roll1:= rand.int32_range(0,6) 
     roll2 := rand.int32_range(0,6) 
@@ -15,42 +15,9 @@ roll_dice :: proc() -> (i32, i32, i32){
 recruit :: proc(player_ptr: ^Player){
     append(&player_ptr.troops, Troop_Tile{})
     player_ptr.treasury -= 10
-
 }
 
-taxation :: proc(player_ptr: ^Player, rate: i32){
-    player_ptr.treasury += rate * player_ptr.territory
-}
-
-// TODO: Add logic for these player actions
-/* move :: proc(player_ptr: ^Player, index: i32) {
- }
-
-
-war :: proc(player_ptr: ^Player, index: i32){
-
-}
-
-
-trade :: proc(player_ptr: ^Player){
-
-}
-
-build :: proc(player_ptr: ^Player){
-
-}
-
-spy :: proc(player_ptr: ^Player){
-
-}
-
-trade :: proc(player_ptr: ^Player){
-
-}
-
-*/
-
-
+taxation :: proc()
 
 produce :: proc(tile: Tile, player: ^Player){
 
@@ -65,11 +32,10 @@ produce :: proc(tile: Tile, player: ^Player){
     }
 
 }
-/* TODO: Add UI for player action choices and then separate it out into different actions listed below alter the logic in the current player action proc for other purposes, e.g. spy
-*/
+// TODO: Build UI for player actions
 player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dynamic]Tile, player_ptr: ^Player){
     point:= rl.GetMousePosition()
-    for &tile, i in tile_map {
+    for &tile in tile_map {
     if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
         tile.texture = texture
         // tile.border = {rl.RED, 3}
@@ -80,7 +46,7 @@ player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dyna
     }  
     // TODO: Add logic to print this information to screen and change to IsMouseButtonDown
     if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
-        fmt.printf("%s: %d, tile number: %d \n", tile.kind, tile.production_value, i)
+        fmt.printf("%s: %d", tile.kind, tile.production_value)
         tile.texture = texture2
 
     }  

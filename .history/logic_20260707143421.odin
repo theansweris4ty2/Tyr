@@ -3,7 +3,7 @@ import "core:fmt"
 import "core:math/rand"
 import rl "vendor:raylib"
 
-
+// TODO: Write logic for battles
 roll_dice :: proc() -> (i32, i32, i32){
     roll1:= rand.int32_range(0,6) 
     roll2 := rand.int32_range(0,6) 
@@ -65,8 +65,7 @@ produce :: proc(tile: Tile, player: ^Player){
     }
 
 }
-/* TODO: Add UI for player action choices and then separate it out into different actions listed below alter the logic in the current player action proc for other purposes, e.g. spy
-*/
+// TODO: Build UI for player actions
 player_action :: proc(texture: rl.Texture, texture2: rl.Texture, tile_map: [dynamic]Tile, player_ptr: ^Player){
     point:= rl.GetMousePosition()
     for &tile, i in tile_map {

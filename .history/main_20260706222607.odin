@@ -23,7 +23,7 @@ battlefield1 := rl.LoadTexture("assets/battlefield1.png")
 battlefield2 := rl.LoadTexture("assets/battlefield2.png")
 battlefield3 := rl.LoadTexture("assets/battlefield3.png")
 battlefield4 := rl.LoadTexture("assets/battlefield4.png")
-infantry:= rl.LoadTexture("assets/crossbowmen.png")
+infantry:= rl.LoadTexture("assets/infantry.png")
 defer rl.UnloadTexture(infantry)
 defer rl.UnloadTexture(battlefield1)
 defer rl.UnloadTexture(battlefield2)
@@ -45,10 +45,7 @@ battle_screen: bool
 for !rl.WindowShouldClose(){
     rl.BeginDrawing()
     rl.ClearBackground(rl.BEIGE)
-   
-    if !battle_screen {
-         player_action(castle, town, tile_map, p_ptr)
-    }
+    player_action(castle, town, tile_map, p_ptr)
 
 if rl.IsKeyPressed(.B){
     if !battle_screen {
@@ -59,7 +56,7 @@ if rl.IsKeyPressed(.B){
     }
 }
 if battle_screen{
-    draw_map(battle_map)
+    draw_battle_board(battle_map)
     for tile in troop_tiles {
         rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
     }

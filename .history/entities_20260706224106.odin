@@ -20,12 +20,12 @@ Player::struct {
     action_points1: i32,
     action_points2: i32,
     action_points3: i32,
-    treasury: i32,
+    score: i32,
     ore: i32, 
     lumber: i32,
-    troops: [dynamic]Troop_Tile,
+    soldiers: i32, 
+    // Possibly make this a field of 
     crops: i32,
-    territory: i32
 }
 
 Troop_Tile::struct {
