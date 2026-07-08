@@ -24,11 +24,16 @@ taxation :: proc(player_ptr: ^Player, rate: i32){
 }
 
 // TODO: Add logic for these player actions
-
 /* move :: proc(player_ptr: ^Player, index: i32) {
  }
 
+
 war :: proc(player_ptr: ^Player, index: i32){
+
+}
+
+
+trade :: proc(player_ptr: ^Player){
 
 }
 
@@ -40,23 +45,14 @@ spy :: proc(player_ptr: ^Player){
 
 }
 */
-sell_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
+trade :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
     player_ptr.treasury += market[goods] * amount
 }
 
-buy_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
-    player_ptr.treasury -= market[goods] * amount
-    switch goods {
-        case "grain":
-            player_ptr.grain += amount
-        case "ore": 
-            player_ptr.ore += amount
-        case "lumber":
-            player_ptr.lumber += amount
-    }
-}
+
+
 
 produce :: proc(tile: Tile, player: ^Player){
 
@@ -213,9 +209,8 @@ camera_movement :: proc(camera: ^rl.Camera2D) -> rl.Vector2{
 events :: proc(market: Market, game_map: ^[dynamic]Tile) {
     rebellion := rand.int32_range(0, 100)
     invasion := rand.int32_range(0, 100)
-    for good, &price in market {
-        price *= 2
+    for &price, good in market {
+         *= 2
     }
 }
-
 

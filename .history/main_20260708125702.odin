@@ -14,8 +14,7 @@ defer delete(troop_tiles)
 p_ptr := new(Player)
 defer free(p_ptr)
 defer delete(p_ptr.troops)
-market := make(Market)
-defer delete(market)
+
 
 water := rl.LoadTexture("assets/water.png")
 ore := rl.LoadTexture("assets/mountains.png")

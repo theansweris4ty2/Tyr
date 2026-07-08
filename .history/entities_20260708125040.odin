@@ -24,7 +24,7 @@ Player::struct {
     ore: i32, 
     lumber: i32,
     troops: [dynamic]Troop_Tile,
-    grain: i32,
+    crops: i32,
     territory: i32
 }
 
@@ -33,10 +33,7 @@ Troop_Tile::struct {
     texture: rl.Texture,
     recruitment_cost: i32,
     troop_size: i32,
-    unit_type: string,
+    unit_type: string
     movement: i32,
     
 }
-
-Market :: map[string]i32
-

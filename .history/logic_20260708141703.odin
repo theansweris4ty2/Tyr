@@ -24,7 +24,6 @@ taxation :: proc(player_ptr: ^Player, rate: i32){
 }
 
 // TODO: Add logic for these player actions
-
 /* move :: proc(player_ptr: ^Player, index: i32) {
  }
 

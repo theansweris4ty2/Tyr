@@ -24,7 +24,7 @@ Player::struct {
     ore: i32, 
     lumber: i32,
     troops: [dynamic]Troop_Tile,
-    grain: i32,
+    crops: i32,
     territory: i32
 }
 
@@ -38,5 +38,6 @@ Troop_Tile::struct {
     
 }
 
-Market :: map[string]i32
-
+Market :: struct {
+    
+}

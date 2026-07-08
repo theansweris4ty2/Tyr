@@ -24,11 +24,16 @@ taxation :: proc(player_ptr: ^Player, rate: i32){
 }
 
 // TODO: Add logic for these player actions
-
 /* move :: proc(player_ptr: ^Player, index: i32) {
  }
 
+
 war :: proc(player_ptr: ^Player, index: i32){
+
+}
+
+
+trade :: proc(player_ptr: ^Player){
 
 }
 
@@ -39,24 +44,14 @@ build :: proc(player_ptr: ^Player){
 spy :: proc(player_ptr: ^Player){
 
 }
+
+trade :: proc(player_ptr: ^Player){
+
+}
+
 */
-sell_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
-    player_ptr.treasury += market[goods] * amount
-}
 
-buy_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
-
-    player_ptr.treasury -= market[goods] * amount
-    switch goods {
-        case "grain":
-            player_ptr.grain += amount
-        case "ore": 
-            player_ptr.ore += amount
-        case "lumber":
-            player_ptr.lumber += amount
-    }
-}
 
 produce :: proc(tile: Tile, player: ^Player){
 
@@ -151,7 +146,7 @@ draw_map::proc(tile_map: [dynamic]Tile){
      for &tile in tile_map {
  
     rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
-    rl.DrawRectangleLinesEx(tile.rect, tile.border.thickness, tile.border.color)
+    // rl.DrawRectangleLinesEx(tile.rect, tile.border.thickness, tile.border.color)
 
 }
 }
@@ -209,13 +204,4 @@ camera_movement :: proc(camera: ^rl.Camera2D) -> rl.Vector2{
     point := rl.GetScreenToWorld2D(rl.GetMousePosition(), camera^)
     return point
 }
-
-events :: proc(market: Market, game_map: ^[dynamic]Tile) {
-    rebellion := rand.int32_range(0, 100)
-    invasion := rand.int32_range(0, 100)
-    for good, &price in market {
-        price *= 2
-    }
-}
-
 

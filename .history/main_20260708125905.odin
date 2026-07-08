@@ -10,7 +10,7 @@ WINDOW_HEIGHT :: 900
 main :: proc() {
 rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tyr")
 troop_tiles: [dynamic]Troop_Tile
-defer delete(troop_tiles)
+// defer delete(troop_tiles)
 p_ptr := new(Player)
 defer free(p_ptr)
 defer delete(p_ptr.troops)
