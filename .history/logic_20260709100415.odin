@@ -100,7 +100,7 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
     
         for j in 0..<1008 {
             x:= f32(j % 36) * 50
-            y:= f32(j/36) * 50 + 50
+            y:= f32(j/36) * 50
             production_value := rand.int32_range(1,5)
             append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {rl.BLACK, 1}})
         }
@@ -230,9 +230,7 @@ draw_ui :: proc(buttons:[3]Button){
 draw_toolbar :: proc(toolbar: Toolbar){
     rl.DrawRectangle(i32(toolbar.rect.x), i32(toolbar.rect.y), i32(toolbar.rect.width), i32(toolbar.rect.height), WHEAT_GOLD)
     for button in toolbar.buttons {
-         rl.DrawRectangleRounded({button.rect.x, button.rect.y, button.rect.width, button.rect.height},1, 1, button.color)
-        rl.DrawText(button.label, i32(button.rect.x + button.x_text_offset), i32(button.rect.y +10), 30, BRICK)
-
+        
     }
 }
 

@@ -100,7 +100,7 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
     
         for j in 0..<1008 {
             x:= f32(j % 36) * 50
-            y:= f32(j/36) * 50 + 50
+            y:= f32(j/36) * 50
             production_value := rand.int32_range(1,5)
             append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {rl.BLACK, 1}})
         }

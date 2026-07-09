@@ -143,7 +143,19 @@ if battle_screen{
     }
     
 }
-
+draw_toolbar(toolbar)
+        for button in toolbar.buttons {
+            if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
+                switch button.label {
+                    case "Main Menu":
+                        start_screen = true
+                    case "Battle":
+                        battle_screen = true
+                    case "Quit":
+                        rl.CloseWindow()
+                }
+            }
+        }
 }
 
 

@@ -61,7 +61,7 @@ rl.PlayMusicStream(opening_song)
 
 for !rl.WindowShouldClose(){
     rl.BeginDrawing()
-    rl.ClearBackground(WHEAT_GOLD)
+    rl.ClearBackground(rl.WHITE)
     rl.BeginMode2D(camera)
     point:= camera_movement(&camera)
     if rl.IsKeyPressed(.S) && !start_screen{
@@ -143,7 +143,19 @@ if battle_screen{
     }
     
 }
-
+draw_toolbar(toolbar)
+        for button in toolbar.buttons {
+            if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
+                switch button.label {
+                    case "Main Menu":
+                        start_screen = true
+                    case "Battle":
+                        battle_screen = true
+                    case "Quit":
+                        rl.CloseWindow()
+                }
+            }
+        }
 }
 
 

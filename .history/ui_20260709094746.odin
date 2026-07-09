@@ -7,7 +7,7 @@ SLATE :: rl.Color {123, 111, 131, 255}
 BRICK :: rl.Color{156, 67, 0, 255}
 OCEAN_BLUE :: rl.Color{79, 166, 235, 255}
 FOREST_GREEN :: rl.Color{81, 125, 25, 255}
-WHEAT_GOLD :: rl.Color{255, 220, 115, 200}
+WHEAT_GOLD :: rl.Color{255, 220, 115, 100}
 
 Button :: struct {
     rect: rl.Rectangle,
@@ -17,12 +17,15 @@ Button :: struct {
 }
 
 
-Toolbar :: struct {
+Menu :: struct {
     rect: rl.Rectangle,
-    buttons: [3]Button,
+    buttons: [dynamic; 6]Button,
+    border: f32,
+    label: string
 }
 
 
+dice_files := [6]string{"assets/pipone.png", "assets/piptwo.png", "assets/pipthree.png", "assets/pipfour.png", "assets/pipfive.png", "assets/pipsix.png"}
 
 
 

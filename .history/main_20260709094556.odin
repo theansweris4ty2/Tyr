@@ -54,8 +54,7 @@ battle_screen: bool
 start_screen : = true
 map_screen : bool
 camera := rl.Camera2D{{100,100}, {100, 100}, 0, 1.25}
-buttons: [3]Button = {Button{{400, 400, 200, 50}, WHEAT_GOLD, "New Game", 30}, Button{{400, 475, 200, 50}, WHEAT_GOLD, "Saved Game", 10}, Button{{400, 550, 200, 50}, WHEAT_GOLD, "Quit", 75}}
-toolbar: Toolbar = {{0, 0, WINDOW_WIDTH, 50}, {Button{{200, 0, 200, 50}, WHEAT_GOLD, "Main Menu", 30}, Button{{420, 0, 200, 50}, WHEAT_GOLD, "Battle", 50}, Button{{640, 0, 200, 50}, WHEAT_GOLD, "Quit", 75}}}
+buttons: [3]Button = {Button{{400, 400, 200, 50}, WHEAT_GOLD, "New Game", 30}, Button{{400, 450, 200, 50}, WHEAT_GOLD, "Saved Game", 10}, Button{{400, 50, 200, 50}, WHEAT_GOLD, "Quit", 75}}
 rl.PlayMusicStream(opening_song)
 
 
@@ -97,33 +96,18 @@ for !rl.WindowShouldClose(){
                     case "Saved Game":
                         fmt.println("Saved Game")
                     case "Quit":
-                        rl.CloseWindow()
+                        fmt.println("Quit")
                 }
             }
         }
 
        
     }
-    
     if map_screen {
         start_screen = false
         battle_screen = false
-        player_action(castle, town, tile_map, p_ptr, point)
         draw_map(tile_map)
-        draw_toolbar(toolbar)
-        for button in toolbar.buttons {
-            if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
-                switch button.label {
-                    case "Main Menu":
-                        start_screen = true
-                    case "Battle":
-                        battle_screen = true
-                    case "Quit":
-                        rl.CloseWindow()
-                }
-            }
-        }
-       
+        player_action(castle, town, tile_map, p_ptr, point)
     }
 
 if battle_screen{
@@ -143,7 +127,6 @@ if battle_screen{
     }
     
 }
-
 }
 
 

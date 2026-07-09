@@ -143,7 +143,6 @@ if battle_screen{
     }
     
 }
-
 }
 
 

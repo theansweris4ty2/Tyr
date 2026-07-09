@@ -17,9 +17,11 @@ Button :: struct {
 }
 
 
-Toolbar :: struct {
+ :: struct {
     rect: rl.Rectangle,
-    buttons: [3]Button,
+    buttons: [dynamic; 6]Button,
+    border: f32,
+    label: string
 }
 
 

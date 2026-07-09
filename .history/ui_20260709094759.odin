@@ -17,12 +17,15 @@ Button :: struct {
 }
 
 
-Toolbar :: struct {
+Menu :: struct {
     rect: rl.Rectangle,
-    buttons: [3]Button,
+    buttons: [dynamic; 6]Button,
+    border: f32,
+    label: string
 }
 
 
+dice_files := [6]string{"assets/pipone.png", "assets/piptwo.png", "assets/pipthree.png", "assets/pipfour.png", "assets/pipfive.png", "assets/pipsix.png"}
 
 
 

@@ -17,7 +17,7 @@ Button :: struct {
 }
 
 
-Toolbar :: struct {
+ToolBar :: struct {
     rect: rl.Rectangle,
     buttons: [3]Button,
 }

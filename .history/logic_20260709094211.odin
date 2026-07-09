@@ -100,7 +100,7 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
     
         for j in 0..<1008 {
             x:= f32(j % 36) * 50
-            y:= f32(j/36) * 50 + 50
+            y:= f32(j/36) * 50
             production_value := rand.int32_range(1,5)
             append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {rl.BLACK, 1}})
         }
@@ -203,7 +203,7 @@ camera_movement :: proc(camera: ^rl.Camera2D) -> rl.Vector2{
     }
      if rl.IsKeyDown(.UP){
         if camera.target.y > 80 {
-        camera.target.y -= 2
+        camera.target.y -= 1
         }
     }
     point := rl.GetScreenToWorld2D(rl.GetMousePosition(), camera^)
@@ -220,19 +220,10 @@ events :: proc(market: Market, game_map: ^[dynamic]Tile) {
 
 draw_ui :: proc(buttons:[3]Button){
     for button in buttons {
-        rl.DrawText("TYR", 400, 300, 100, BRICK)
+        rl.DrawText("TYR", 400, 200, 100, BRICK)
         rl.DrawRectangleRounded({button.rect.x, button.rect.y, button.rect.width, button.rect.height},1, 1, button.color)
         rl.DrawText(button.label, i32(button.rect.x + button.x_text_offset), i32(button.rect.y +10), 30, BRICK)
     }
 
-}
-
-draw_toolbar :: proc(toolbar: Toolbar){
-    rl.DrawRectangle(i32(toolbar.rect.x), i32(toolbar.rect.y), i32(toolbar.rect.width), i32(toolbar.rect.height), WHEAT_GOLD)
-    for button in toolbar.buttons {
-         rl.DrawRectangleRounded({button.rect.x, button.rect.y, button.rect.width, button.rect.height},1, 1, button.color)
-        rl.DrawText(button.label, i32(button.rect.x + button.x_text_offset), i32(button.rect.y +10), 30, BRICK)
-
-    }
 }
 
