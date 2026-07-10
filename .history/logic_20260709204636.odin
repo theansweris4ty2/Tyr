@@ -163,7 +163,7 @@ build_battle_board :: proc(texture1: rl.Texture, texture2: rl.Texture, texture3:
     y: f32
     for i in 0..<84{
         x = f32(i % 12)*100 
-        y = f32(i/12) *75 + 100
+        y = f32(i/12) *75 + 200
         
             append(&tiles, Tile{{x, y, 100, 75}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
         
@@ -228,42 +228,11 @@ draw_ui :: proc(buttons:[3]Button){
 }
 
 draw_toolbar :: proc(toolbar: Toolbar){
-    rl.DrawRectangle(i32(toolbar.rect.x), i32(toolbar.rect.y), i32(toolbar.rect.width), i32(toolbar.rect.height), WHEAT_GOLD)
+    rl.DrawRectangle(i32(toolbar.rect.x), i32(toolbar.rect.y), i32(toolbar.rect.width), i32(toolbar.rect.height), SLATE)
     for button in toolbar.buttons {
          rl.DrawRectangleRounded({button.rect.x, button.rect.y, button.rect.width, button.rect.height},1, 1, button.color)
         rl.DrawText(button.label, i32(button.rect.x + button.x_text_offset), i32(button.rect.y +10), 30, BRICK)
 
     }
 }
-load_assets :: proc()-> (rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Texture2D, rl.Music) {
-water := rl.LoadTexture("assets/water.png")
-ore := rl.LoadTexture("assets/mountains.png")
-wheat := rl.LoadTexture("assets/wheat.png")
-forest := rl.LoadTexture("assets/trees.png")
-castle := rl.LoadTexture("assets/castle.png")
-town := rl.LoadTexture("assets/town.png")
-battlefield1 := rl.LoadTexture("assets/battlefield1.png")
-battlefield2 := rl.LoadTexture("assets/battlefield2.png")
-battlefield3 := rl.LoadTexture("assets/battlefield3.png")
-battlefield4 := rl.LoadTexture("assets/battlefield4.png")
-infantry:= rl.LoadTexture("assets/infantry.png")
-crossbowmen:= rl.LoadTexture("assets/crossbowmen.png")
-cavalry:= rl.LoadTexture("assets/cavalry.png")
-background:= rl.LoadTexture("assets/start_screen.png")
-opening_song := rl.LoadMusicStream("assets/light-ambience.mp3")
 
-
-return water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background, opening_song
-}
-
-unload_textures :: proc (textures: ..rl.Texture2D) {
-    for texture in textures {
-        rl.UnloadTexture(texture)
-    }
-}
-unload_sounds :: proc (sounds: ..rl.Music){
-    for sound in sounds {
-        rl.UnloadMusicStream(sound)
-    }
-   
-}

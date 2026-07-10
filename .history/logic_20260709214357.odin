@@ -250,20 +250,23 @@ infantry:= rl.LoadTexture("assets/infantry.png")
 crossbowmen:= rl.LoadTexture("assets/crossbowmen.png")
 cavalry:= rl.LoadTexture("assets/cavalry.png")
 background:= rl.LoadTexture("assets/start_screen.png")
+defer rl.UnloadTexture(background)
+defer rl.UnloadTexture(infantry)
+defer rl.UnloadTexture(crossbowmen)
+defer rl.UnloadTexture(cavalry)
+defer rl.UnloadTexture(battlefield1)
+defer rl.UnloadTexture(battlefield2)
+defer rl.UnloadTexture(battlefield3)
+defer rl.UnloadTexture(battlefield4)
+defer rl.UnloadTexture(town)
+defer rl.UnloadTexture(forest)
+defer rl.UnloadTexture(ore)
+defer rl.UnloadTexture(wheat)
+defer rl.UnloadTexture(water)
+defer rl.UnloadTexture(castle)
 opening_song := rl.LoadMusicStream("assets/light-ambience.mp3")
+defer rl.UnloadMusicStream(opening_song)
 
-
-return water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background, opening_song
+return water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, 
 }
 
-unload_textures :: proc (textures: ..rl.Texture2D) {
-    for texture in textures {
-        rl.UnloadTexture(texture)
-    }
-}
-unload_sounds :: proc (sounds: ..rl.Music){
-    for sound in sounds {
-        rl.UnloadMusicStream(sound)
-    }
-   
-}

@@ -262,8 +262,5 @@ unload_textures :: proc (textures: ..rl.Texture2D) {
     }
 }
 unload_sounds :: proc (sounds: ..rl.Music){
-    for sound in sounds {
-        rl.UnloadMusicStream(sound)
-    }
-   
+    
 }

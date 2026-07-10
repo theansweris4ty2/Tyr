@@ -256,14 +256,4 @@ opening_song := rl.LoadMusicStream("assets/light-ambience.mp3")
 return water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background, opening_song
 }
 
-unload_textures :: proc (textures: ..rl.Texture2D) {
-    for texture in textures {
-        rl.UnloadTexture(texture)
-    }
-}
-unload_sounds :: proc (sounds: ..rl.Music){
-    for sound in sounds {
-        rl.UnloadMusicStream(sound)
-    }
-   
-}
+unload_assets ::proc (sound: rl.Music, texture: ..rl.Texture2D)
