@@ -1,0 +1,1 @@
+exec(odin build . -out:.exe -o:speed)

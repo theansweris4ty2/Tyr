@@ -1,0 +1,1 @@
+exec(odin build . -out:map_maker.exe -o:s

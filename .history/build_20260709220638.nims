@@ -1,0 +1,1 @@
+exec(odin build . -o:speed -out:)
