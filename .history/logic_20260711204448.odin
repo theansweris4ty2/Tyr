@@ -73,16 +73,14 @@ produce :: proc(tile: Tile, player: ^Player){
 
 }
 
-player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Vector2, action: string, town_texture: rl.Texture2D, menu_state: bool){
+player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Vector2, action: string){
     
    
-    for &tile, i in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}) && !menu_state{
+    for tile, i in tile_map {
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}){
         switch action {
             case "produce":
                  produce(tile, player_ptr)
-            case "build":
-                tile.texture = town_texture
         }
         
        

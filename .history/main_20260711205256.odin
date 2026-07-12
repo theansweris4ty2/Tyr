@@ -12,9 +12,7 @@ main :: proc() {
 rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tyr")
 rl.InitAudioDevice()
 rl.SetTargetFPS(120)
-troop_tiles: [dynamic]Troop_Tile
 active_troops: i32
-defer delete(troop_tiles)
 p_ptr := new(Player)
 defer free(p_ptr)
 defer delete(p_ptr.troops)
@@ -112,7 +110,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu)
+        player_action(tile_map, p_ptr, point, action, town)
         
        
     }
@@ -128,20 +126,17 @@ if battle_screen{
                 switch button.label {
                     case "Infantry":
                         active_troops = 0
-                        fmt.println("clicked1")
                        
-                    case "Crossbow":
+                    case "Crossbowmen":
                         active_troops = 1
-                        fmt.println("clicked2")
                       
                     case "Cavalry":
                         active_troops = 2
-                        fmt.println("clicked3")
                        
                     }
                     }
         }
-    for tile in troop_tiles {
+    for tile in  {
         rl.DrawTexture(tile.texture, i32(tile.rect.x), i32(tile.rect.y), rl.WHITE)
     }
     for &tile in battle_map {

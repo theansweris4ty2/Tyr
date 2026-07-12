@@ -71,9 +71,7 @@ for !rl.WindowShouldClose(){
                     case "Produce":
                         action = "produce"
                     case "Recruit":
-                        recruit(p_ptr)
-                    case "Build":
-                        action = "build"
+                        action: 
                     case "Quit":
                         rl.CloseWindow()
                 }
@@ -112,7 +110,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu)
+        player_action(tile_map, p_ptr, point, action)
         
        
     }
@@ -128,15 +126,12 @@ if battle_screen{
                 switch button.label {
                     case "Infantry":
                         active_troops = 0
-                        fmt.println("clicked1")
                        
-                    case "Crossbow":
+                    case "Crossbowmen":
                         active_troops = 1
-                        fmt.println("clicked2")
                       
                     case "Cavalry":
                         active_troops = 2
-                        fmt.println("clicked3")
                        
                     }
                     }

@@ -112,7 +112,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu)
+        player_action(tile_map, p_ptr, point, action, town)
         
        
     }

@@ -70,10 +70,6 @@ for !rl.WindowShouldClose(){
                         menu = false
                     case "Produce":
                         action = "produce"
-                    case "Recruit":
-                        recruit(p_ptr)
-                    case "Build":
-                        action = "build"
                     case "Quit":
                         rl.CloseWindow()
                 }
@@ -112,7 +108,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu)
+        player_action(tile_map, p_ptr, point, action)
         
        
     }
@@ -128,15 +124,12 @@ if battle_screen{
                 switch button.label {
                     case "Infantry":
                         active_troops = 0
-                        fmt.println("clicked1")
                        
-                    case "Crossbow":
+                    case "Crossbowmen":
                         active_troops = 1
-                        fmt.println("clicked2")
                       
                     case "Cavalry":
                         active_troops = 2
-                        fmt.println("clicked3")
                        
                     }
                     }
@@ -157,7 +150,7 @@ if battle_screen{
 
 rl.EndMode2D()
 if menu {
-    rl.DrawRectangle(i32(menu1.rect.x), i32(menu1.rect.y), i32(menu1.rect.width), i32(menu1.rect.height), SLATE)
+    rl.DrawRectangleRounded(i32(menu1.rect.x), i32(menu1.rect.y), i32(menu1.rect.width), i32(menu1.rect.height), 5, 1, SLATE)
    draw_ui(menu1.buttons)
 }
 

@@ -77,7 +77,7 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
     
    
     for &tile, i in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}) && !menu_state{
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}) {
         switch action {
             case "produce":
                  produce(tile, player_ptr)
