@@ -15,10 +15,9 @@ roll_dice :: proc() -> (i32, i32, i32){
 
 recruit :: proc(player_ptr: ^Player){
     troop:= Troop_Tile{}
-    if player_ptr.treasury > troop.recruitment_cost{
-         append(&player_ptr.troops, troop)
-         player_ptr.treasury -= troop.recruitment_cost
-    } 
+    append(&player_ptr.troops, troop)
+    player_ptr.treasury -= troop.recruitment_cost
+
 }
 
 taxation :: proc(player_ptr: ^Player, rate: i32){
@@ -34,6 +33,10 @@ war :: proc(player_ptr: ^Player, index: i32){
 
 }
 
+
+spy :: proc(player_ptr: ^Player){
+
+}
 */
 sell_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
@@ -79,13 +82,18 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
             case "build":
                 tile.texture = town_texture
             case "spy":
-                fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
-
-
+                
         }
+        
+       
+       
         
     }  
     
+    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+        fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
+
+    }  
 }
 }
 

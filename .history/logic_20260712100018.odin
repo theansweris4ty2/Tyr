@@ -15,10 +15,9 @@ roll_dice :: proc() -> (i32, i32, i32){
 
 recruit :: proc(player_ptr: ^Player){
     troop:= Troop_Tile{}
-    if player_ptr.treasury > troop.recruitment_cost{
-         append(&player_ptr.troops, troop)
-         player_ptr.treasury -= troop.recruitment_cost
-    } 
+    append(&player_ptr.troops, troop)
+    player_ptr.treasury -= troop.recruitment_cost
+
 }
 
 taxation :: proc(player_ptr: ^Player, rate: i32){
@@ -34,6 +33,13 @@ war :: proc(player_ptr: ^Player, index: i32){
 
 }
 
+build :: proc(player_ptr: ^Player){
+
+}
+
+spy :: proc(player_ptr: ^Player){
+
+}
 */
 sell_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
@@ -78,33 +84,30 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                  produce(&tile, player_ptr)
             case "build":
                 tile.texture = town_texture
-            case "spy":
-                fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
-
-
         }
+        
+       
+       
         
     }  
     
+    // if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+    //     fmt.printf("%s: %d, tile number: %d \n", tile.kind, tile.production_value, i)
+    //     tile.texture = texture2
+
+    // }  
 }
 }
 
 generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, ore: rl.Texture) -> [dynamic]Tile
 {
     game_board: [dynamic]Tile
-    invaded: bool
+    
         for j in 0..<1512{
             x:= f32(j % 42) * 50
             y:= f32(j/42) * 50 + 50
             production_value := rand.int32_range(1,5)
-            invasion := rand.int32_range(1, 100)
-            switch invasion {
-                case 1..=25:
-                    invaded= true
-                case 26..=100:
-                    invaded = false  
-            }
-            append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, invaded, {rl.BLACK, 1}})
+            append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {rl.BLACK, 1}})
         }
 
     water_tiles: [dynamic;100]Tile
@@ -124,7 +127,7 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
     for i in 0..<40 {
         x:= rand.float32_range(0, 36) * 50
         y:= rand.float32_range(0, 30) * 50
-        append(&ore_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "ore", ore, 0, false, false, false, {rl.BLACK, 1}})    
+        append(&ore_tiles, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "ore", ore, 0, false, false, {rl.BLACK, 1}})    
     }
     for &tile in game_board {
         for water_tile in water_tiles {
@@ -167,7 +170,7 @@ build_battle_board :: proc(texture1: rl.Texture, texture2: rl.Texture, texture3:
         x = f32(i % 12)*100 + 20
         y = f32(i/12) *75 + 100
         
-            append(&tiles, Tile{{x, y, 100, 75}, "battle", {}, 0,false, false, false, {rl.BLACK, 1}})
+            append(&tiles, Tile{{x, y, 100, 75}, "battle", {}, 0,false, false, {rl.BLACK, 1}})
         
     }
     

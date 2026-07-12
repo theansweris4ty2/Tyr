@@ -19,6 +19,7 @@ recruit :: proc(player_ptr: ^Player){
          append(&player_ptr.troops, troop)
          player_ptr.treasury -= troop.recruitment_cost
     } 
+
 }
 
 taxation :: proc(player_ptr: ^Player, rate: i32){

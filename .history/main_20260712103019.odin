@@ -43,7 +43,7 @@ for !rl.WindowShouldClose(){
     point:= camera_movement(&camera, map_screen)
 
     
-// Try to refactor to combine menu into a single proc in the logic file
+
     if rl.IsKeyPressed(.M){
         if !menu {
             menu = true
@@ -74,8 +74,7 @@ for !rl.WindowShouldClose(){
                         recruit(p_ptr)
                     case "Build":
                         action = "build"
-                    case "Spy":
-                        action = "spy"
+                    case "Spy"
                     case "Quit":
                         rl.CloseWindow()
                 }

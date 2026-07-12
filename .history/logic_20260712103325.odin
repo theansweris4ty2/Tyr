@@ -15,10 +15,10 @@ roll_dice :: proc() -> (i32, i32, i32){
 
 recruit :: proc(player_ptr: ^Player){
     troop:= Troop_Tile{}
-    if player_ptr.treasury > troop.recruitment_cost{
-         append(&player_ptr.troops, troop)
-         player_ptr.treasury -= troop.recruitment_cost
-    } 
+    if player_ptr.treasury >
+    append(&player_ptr.troops, troop)
+    player_ptr.treasury -= troop.recruitment_cost
+
 }
 
 taxation :: proc(player_ptr: ^Player, rate: i32){

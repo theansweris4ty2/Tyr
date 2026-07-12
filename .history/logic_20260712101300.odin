@@ -15,10 +15,9 @@ roll_dice :: proc() -> (i32, i32, i32){
 
 recruit :: proc(player_ptr: ^Player){
     troop:= Troop_Tile{}
-    if player_ptr.treasury > troop.recruitment_cost{
-         append(&player_ptr.troops, troop)
-         player_ptr.treasury -= troop.recruitment_cost
-    } 
+    append(&player_ptr.troops, troop)
+    player_ptr.treasury -= troop.recruitment_cost
+
 }
 
 taxation :: proc(player_ptr: ^Player, rate: i32){
@@ -34,6 +33,10 @@ war :: proc(player_ptr: ^Player, index: i32){
 
 }
 
+
+spy :: proc(player_ptr: ^Player){
+
+}
 */
 sell_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
@@ -78,33 +81,37 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                  produce(&tile, player_ptr)
             case "build":
                 tile.texture = town_texture
-            case "spy":
-                fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
-
-
         }
+        
+       
+       
         
     }  
     
+    if rl.IsMouseButtonPressed(.RIGHT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width - 10, tile.rect.height - 10}){
+        fmt.printf("%s: %d, tile number: %d \n occupied: %v", tile.kind, tile.production_value, i, tile.occupied)
+
+    }  
 }
 }
 
 generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, ore: rl.Texture) -> [dynamic]Tile
 {
     game_board: [dynamic]Tile
-    invaded: bool
+    occupied: bool
         for j in 0..<1512{
             x:= f32(j % 42) * 50
             y:= f32(j/42) * 50 + 50
             production_value := rand.int32_range(1,5)
-            invasion := rand.int32_range(1, 100)
-            switch invasion {
+            occupied_tile := rand.int32_range(1, 100)
+            switch occupied_tile {
                 case 1..=25:
-                    invaded= true
-                case 26..=100:
-                    invaded = false  
+                    occupied= true
+                case 6..=100:
+                    occupied = false
+                
             }
-            append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, invaded, {rl.BLACK, 1}})
+            append(&game_board, Tile{{x, y, TILE_WIDTH, TILE_HEIGHT}, "farm", texture, production_value, false, false, false, {rl.BLACK, 1}})
         }
 
     water_tiles: [dynamic;100]Tile
