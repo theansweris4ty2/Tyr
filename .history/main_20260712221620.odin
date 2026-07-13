@@ -53,7 +53,6 @@ for !rl.WindowShouldClose(){
             menu = true
             recruiting = false
             moving = false
-            action = ""
         } else {
             menu = false
         } 
@@ -79,7 +78,6 @@ for !rl.WindowShouldClose(){
                         action = "produce"
                     case "Recruit":
                         action = "recruit"
-                        recruiting = true
                         menu = false
                     case "Build":
                         action = "build"
@@ -241,7 +239,9 @@ if !start_screen {
 }
 
 rl.EndDrawing()
-
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 }
 
 rl.CloseWindow()

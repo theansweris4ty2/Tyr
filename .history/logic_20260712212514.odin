@@ -20,7 +20,8 @@ taxation :: proc(player_ptr: ^Player, rate: i32){
 
 // TODO: Add logic for these player actions
 
-
+move :: proc(player_ptr: ^Player, ) {
+ }
 /*
 war :: proc(player_ptr: ^Player, index: i32){
 
@@ -60,11 +61,11 @@ produce :: proc(tile: ^Tile, player: ^Player){
 
 }
 
-player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Vector2, action: string, town_texture: rl.Texture2D, menu: bool, infantry: rl.Texture, crossbowmen: rl.Texture, cavalry: rl.Texture, unit: string){
+player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Vector2, action: string, town_texture: rl.Texture2D, menu_state: bool){
     
    
     for &tile, i in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}) && !menu{
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}) && !menu_state{
         switch action {
             case "produce":
                  produce(&tile, player_ptr)
@@ -73,22 +74,13 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
             case "spy":
                 fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
 
-            // Need to fix this logic so the unit it placed on tile and doesn't keep moving when you click on another tile - possibly add field to tile moved: bool that is toggled to true when the tile is moved and has to be false to be moved again.  
-            case "move":
-                for &troop in player_ptr.troops {
-                    if troop.unit_type == unit {
-                        troop.rect.x = tile.rect.x
-                        troop.rect.y = tile.rect.y
-                        break
-                    }
-                }
 
         }
-    }
-
-        }    
+        
     }  
     
+}
+}
 
 generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, ore: rl.Texture) -> [dynamic]Tile
 {

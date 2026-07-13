@@ -72,8 +72,6 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                 tile.texture = town_texture
             case "spy":
                 fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
-
-            // Need to fix this logic so the unit it placed on tile and doesn't keep moving when you click on another tile - possibly add field to tile moved: bool that is toggled to true when the tile is moved and has to be false to be moved again.  
             case "move":
                 for &troop in player_ptr.troops {
                     if troop.unit_type == unit {
@@ -82,13 +80,55 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                         break
                     }
                 }
-
+            case "recruiting":
+                troop: Troop_Tile
+                point := rl.GetMousePosition()
+                for button in recruit_menu.buttons {
+                if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
+                    switch button.label {
+                    case "Infantry":
+                    troop.texture = infantry
+                    troop.recruitment_cost = 2
+                    troop.troop_size = 1
+                    troop.unit_type = "infantry"
+                    troop.movement = 2
+                    if player_ptr.treasury >= troop.recruitment_cost{
+                        append(&player_ptr.troops, troop)
+                        player_ptr.treasury -= troop.recruitment_cost
+                        fmt.println("click")
+            }
+            case "Crossbow":
+                troop.texture = crossbowmen
+                troop.recruitment_cost = 4
+                troop.troop_size = 1
+                troop.unit_type = "crossbow"
+                troop.movement = 3
+                if player_ptr.treasury >= troop.recruitment_cost{
+                    append(&player_ptr.troops, troop)
+                    player_ptr.treasury -= troop.recruitment_cost
+            }
+            case "Cavalry":
+                troop.texture = cavalry
+                troop.recruitment_cost = 6
+                troop.troop_size = 1
+                troop.unit_type = "cavalry"
+                troop.movement = 5
+                if player_ptr.treasury >= troop.recruitment_cost{
+                    append(&player_ptr.troops, troop)
+                    player_ptr.treasury -= troop.recruitment_cost
+            }
+    }
         }
     }
 
-        }    
+
+
+        }
+        
     }  
     
+}
+}
 
 generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, ore: rl.Texture) -> [dynamic]Tile
 {

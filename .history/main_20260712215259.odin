@@ -33,8 +33,7 @@ start_screen : = true
 map_screen : bool
 menu : bool
 action: string
-recruiting: bool
-moving: bool
+recruiting
 unit: string
 camera := rl.Camera2D{{100,70}, {100, 70}, 0, 1.25}
 rl.PlayMusicStream(opening_song)
@@ -51,9 +50,6 @@ for !rl.WindowShouldClose(){
     if rl.IsKeyPressed(.M){
         if !menu {
             menu = true
-            recruiting = false
-            moving = false
-            action = ""
         } else {
             menu = false
         } 
@@ -79,7 +75,6 @@ for !rl.WindowShouldClose(){
                         action = "produce"
                     case "Recruit":
                         action = "recruit"
-                        recruiting = true
                         menu = false
                     case "Build":
                         action = "build"
@@ -87,7 +82,6 @@ for !rl.WindowShouldClose(){
                         action = "spy"
                     case "Move":
                         action = "move"
-                        menu = false
                     case "Quit":
                         rl.CloseWindow()
                 }
@@ -95,7 +89,6 @@ for !rl.WindowShouldClose(){
         }
 }
     if action == "recruit" && !menu{
-        recruiting = true
         troop: Troop_Tile
         point := rl.GetMousePosition()
         for button in recruit_menu.buttons {
@@ -136,7 +129,6 @@ for !rl.WindowShouldClose(){
     }
 }
     if action == "move" {
-        moving = true
         point := rl.GetMousePosition()
         for button in recruit_menu.buttons {
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
@@ -184,7 +176,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
+        player_action(tile_map, p_ptr, point, action, town, menu, unit)
         
        
     }
@@ -200,12 +192,15 @@ if battle_screen{
                 switch button.label {
                     case "Infantry":
                         active_troops = 0
+                        fmt.println("clicked1")
                        
                     case "Crossbow":
                         active_troops = 1
+                        fmt.println("clicked2")
                       
                     case "Cavalry":
                         active_troops = 2
+                        fmt.println("clicked3")
                        
                     }
                     }
@@ -227,11 +222,9 @@ if battle_screen{
 rl.EndMode2D()
 if menu {
     rl.DrawRectangle(i32(menu1.rect.x), i32(menu1.rect.y), i32(menu1.rect.width), i32(menu1.rect.height), SLATE)
-    moving = false
-    recruiting = false
    draw_ui(menu1.buttons)
 }
-if recruiting || moving {
+if action == "recruit" || action == "move" {
     rl.DrawRectangle(i32(recruit_menu.rect.x), i32(recruit_menu.rect.y), i32(recruit_menu.rect.width), i32(recruit_menu.rect.height), SLATE)
    draw_ui(recruit_menu.buttons)
 }

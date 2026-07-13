@@ -53,7 +53,6 @@ for !rl.WindowShouldClose(){
             menu = true
             recruiting = false
             moving = false
-            action = ""
         } else {
             menu = false
         } 
@@ -79,7 +78,6 @@ for !rl.WindowShouldClose(){
                         action = "produce"
                     case "Recruit":
                         action = "recruit"
-                        recruiting = true
                         menu = false
                     case "Build":
                         action = "build"
@@ -184,7 +182,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
+        player_action(tile_map, p_ptr, point, action, town, menu, unit)
         
        
     }
@@ -243,6 +241,8 @@ if !start_screen {
 rl.EndDrawing()
 
 }
-
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 rl.CloseWindow()
 }

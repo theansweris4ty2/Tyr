@@ -53,7 +53,6 @@ for !rl.WindowShouldClose(){
             menu = true
             recruiting = false
             moving = false
-            action = ""
         } else {
             menu = false
         } 
@@ -241,7 +240,9 @@ if !start_screen {
 }
 
 rl.EndDrawing()
-
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 }
 
 rl.CloseWindow()

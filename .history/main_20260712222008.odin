@@ -53,7 +53,6 @@ for !rl.WindowShouldClose(){
             menu = true
             recruiting = false
             moving = false
-            action = ""
         } else {
             menu = false
         } 
@@ -94,47 +93,47 @@ for !rl.WindowShouldClose(){
             }
         }
 }
-    if action == "recruit" && !menu{
-        recruiting = true
-        troop: Troop_Tile
-        point := rl.GetMousePosition()
-        for button in recruit_menu.buttons {
-        if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
-            switch button.label {
-        case "Infantry":
-            troop.texture = infantry
-            troop.recruitment_cost = 2
-            troop.troop_size = 1
-            troop.unit_type = "infantry"
-            troop.movement = 2
-             if p_ptr.treasury >= troop.recruitment_cost{
-            append(&p_ptr.troops, troop)
-            p_ptr.treasury -= troop.recruitment_cost
-            }
-        case "Crossbow":
-            troop.texture = crossbowmen
-            troop.recruitment_cost = 4
-            troop.troop_size = 1
-            troop.unit_type = "crossbow"
-            troop.movement = 3
-            if p_ptr.treasury >= troop.recruitment_cost{
-            append(&p_ptr.troops, troop)
-            p_ptr.treasury -= troop.recruitment_cost
-            }
-        case "Cavalry":
-            troop.texture = cavalry
-            troop.recruitment_cost = 6
-            troop.troop_size = 1
-            troop.unit_type = "cavalry"
-            troop.movement = 5
-            if p_ptr.treasury >= troop.recruitment_cost{
-            append(&p_ptr.troops, troop)
-            p_ptr.treasury -= troop.recruitment_cost
-            }
-    }
-        }
-    }
-}
+//     if action == "recruit" && !menu{
+//         recruiting = true
+//         troop: Troop_Tile
+//         point := rl.GetMousePosition()
+//         for button in recruit_menu.buttons {
+//         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
+//             switch button.label {
+//         case "Infantry":
+//             troop.texture = infantry
+//             troop.recruitment_cost = 2
+//             troop.troop_size = 1
+//             troop.unit_type = "infantry"
+//             troop.movement = 2
+//              if p_ptr.treasury >= troop.recruitment_cost{
+//             append(&p_ptr.troops, troop)
+//             p_ptr.treasury -= troop.recruitment_cost
+//             }
+//         case "Crossbow":
+//             troop.texture = crossbowmen
+//             troop.recruitment_cost = 4
+//             troop.troop_size = 1
+//             troop.unit_type = "crossbow"
+//             troop.movement = 3
+//             if p_ptr.treasury >= troop.recruitment_cost{
+//             append(&p_ptr.troops, troop)
+//             p_ptr.treasury -= troop.recruitment_cost
+//             }
+//         case "Cavalry":
+//             troop.texture = cavalry
+//             troop.recruitment_cost = 6
+//             troop.troop_size = 1
+//             troop.unit_type = "cavalry"
+//             troop.movement = 5
+//             if p_ptr.treasury >= troop.recruitment_cost{
+//             append(&p_ptr.troops, troop)
+//             p_ptr.treasury -= troop.recruitment_cost
+//             }
+//     }
+//         }
+//     }
+// }
     if action == "move" {
         moving = true
         point := rl.GetMousePosition()
@@ -184,7 +183,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
+        player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry)
         
        
     }
@@ -241,7 +240,9 @@ if !start_screen {
 }
 
 rl.EndDrawing()
-
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 }
 
 rl.CloseWindow()

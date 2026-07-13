@@ -72,8 +72,6 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                 tile.texture = town_texture
             case "spy":
                 fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
-
-            // Need to fix this logic so the unit it placed on tile and doesn't keep moving when you click on another tile - possibly add field to tile moved: bool that is toggled to true when the tile is moved and has to be false to be moved again.  
             case "move":
                 for &troop in player_ptr.troops {
                     if troop.unit_type == unit {
@@ -82,13 +80,15 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                         break
                     }
                 }
-
+    
         }
     }
 
         }    
     }  
     
+}
+}
 
 generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, ore: rl.Texture) -> [dynamic]Tile
 {

@@ -53,7 +53,7 @@ for !rl.WindowShouldClose(){
             menu = true
             recruiting = false
             moving = false
-            action = ""
+            action = 
         } else {
             menu = false
         } 

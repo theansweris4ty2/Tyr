@@ -53,7 +53,6 @@ for !rl.WindowShouldClose(){
             menu = true
             recruiting = false
             moving = false
-            action = ""
         } else {
             menu = false
         } 
@@ -184,7 +183,7 @@ for !rl.WindowShouldClose(){
         start_screen = false
         battle_screen = false
         draw_map(tile_map)
-        player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
+        player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit, recruit_menu.buttons)
         
        
     }
@@ -241,7 +240,9 @@ if !start_screen {
 }
 
 rl.EndDrawing()
-
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 }
 
 rl.CloseWindow()
