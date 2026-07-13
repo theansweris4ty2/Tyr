@@ -64,12 +64,17 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
     
    
     for &tile, i in tile_map {
-    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}) && !menu{
+    if rl.IsMouseButtonPressed(.LEFT) && rl.CheckCollisionPointRec(point, {tile.rect.x, tile.rect.y,tile.rect.width, tile.rect.height}){
         switch action {
             case "produce":
+                if !menu {
                  produce(&tile, player_ptr)
+                }
             case "build":
-                tile.texture = town_texture
+                if !menu {
+                    tile.texture = town_texture
+                }
+                
             case "spy":
                 fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
   

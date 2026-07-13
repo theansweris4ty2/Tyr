@@ -26,8 +26,10 @@ start_buttons: [dynamic; 20]Button = {Button{{500, 400, 200, 50}, WHEAT_GOLD, "N
 menu1_rect: rl.Rectangle = {200, 200, 800, 600}
 menu_buttons: [dynamic; 20]Button = {Button{{menu1_rect.x + 10, menu1_rect.y + 10, 200, 50}, WHEAT_GOLD, "Main Menu", 30}, Button{{menu1_rect.x + 10, menu1_rect.y + 70, 200, 50}, WHEAT_GOLD, "Battle", 50}, Button{{menu1_rect.x + 10, menu1_rect.y + 130, 200, 50}, WHEAT_GOLD, "Quit", 75}, Button{{menu1_rect.x + 10, menu1_rect.y + 190, 200, 50}, WHEAT_GOLD, "Produce", 50}, Button{{menu1_rect.x + 10, menu1_rect.y + 250, 200, 50}, WHEAT_GOLD, "Recruit", 50}, Button{{menu1_rect.x + 10, menu1_rect.y + 310, 200, 50}, WHEAT_GOLD, "Build", 50}, Button{{menu1_rect.x + 10, menu1_rect.y + 370, 200, 50}, WHEAT_GOLD, "Spy", 50}, Button{{menu1_rect.x + 10, menu1_rect.y + 430, 200, 50}, WHEAT_GOLD, "Move", 50}, Button{{menu1_rect.x + 10, menu1_rect.y + 500, 200, 50}, WHEAT_GOLD, "Infantry", 30}, Button{{menu1_rect.x + 210, menu1_rect.y + 500, 200, 50}, WHEAT_GOLD, "Crossbow", 50}, Button{{menu1_rect.x + 420, menu1_rect.y + 500, 200, 50}, WHEAT_GOLD, "Cavalry", 75}}
 menu1: Menu = {menu1_rect, menu_buttons}
+
 battle_buttons: [dynamic; 20]Button = {Button{{300, 655, 200, 50}, WHEAT_GOLD, "Infantry", 30}, Button{{520, 655, 200, 50}, WHEAT_GOLD, "Crossbow", 30}, Button{{740, 655, 200, 50}, WHEAT_GOLD, "Cavalry", 30}}
 
+recruit_menu_buttons: [dynamic; 20]Button = {}
 
 
 

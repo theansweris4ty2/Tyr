@@ -76,20 +76,21 @@ for !rl.WindowShouldClose(){
                     case "Recruit":
                         action = "recruit"
                         
+                        menu = false
                     case "Build":
                         action = "build"
                     case "Spy":
                         action = "spy"
                     case "Move":
                         action = "move"
-
+                        menu = false
                     case "Quit":
                         rl.CloseWindow()
                 }
             }
         }
 }
-    if action == "recruit"{
+    if action == "recruit" && !menu{
         troop: Troop_Tile
         point := rl.GetMousePosition()
         for button in menu1.buttons {
@@ -130,6 +131,7 @@ for !rl.WindowShouldClose(){
     }
 }
     if action == "move" {
+        moving = true
         point := rl.GetMousePosition()
         for button in menu1.buttons {
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
@@ -181,7 +183,7 @@ for !rl.WindowShouldClose(){
         
        
     }
-// Need to add logic that only allows you to place troops that player has in his army - look at language in the move proc in the logic file
+
 if battle_screen{
     troop_type := [3]rl.Texture2D {infantry, crossbowmen, cavalry}
     start_screen = false
@@ -229,6 +231,9 @@ if !start_screen {
 }
 
 rl.EndDrawing()
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 
 }
 

@@ -28,6 +28,7 @@ menu_buttons: [dynamic; 20]Button = {Button{{menu1_rect.x + 10, menu1_rect.y + 1
 menu1: Menu = {menu1_rect, menu_buttons}
 battle_buttons: [dynamic; 20]Button = {Button{{300, 655, 200, 50}, WHEAT_GOLD, "Infantry", 30}, Button{{520, 655, 200, 50}, WHEAT_GOLD, "Crossbow", 30}, Button{{740, 655, 200, 50}, WHEAT_GOLD, "Cavalry", 30}}
 
+recruit_menu_buttons: [dynamic; 20]Button = {}
 
 
 

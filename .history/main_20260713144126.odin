@@ -181,7 +181,7 @@ for !rl.WindowShouldClose(){
         
        
     }
-// Need to add logic that only allows you to place troops that player has in his army - look at language in the move proc in the logic file
+// Need to add logic that only allows you to place troops that placer has in his army - look at 
 if battle_screen{
     troop_type := [3]rl.Texture2D {infantry, crossbowmen, cavalry}
     start_screen = false

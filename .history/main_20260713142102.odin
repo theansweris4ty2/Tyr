@@ -82,54 +82,15 @@ for !rl.WindowShouldClose(){
                         action = "spy"
                     case "Move":
                         action = "move"
-
+                        menu = false
                     case "Quit":
                         rl.CloseWindow()
                 }
             }
         }
 }
-    if action == "recruit"{
-        troop: Troop_Tile
-        point := rl.GetMousePosition()
-        for button in menu1.buttons {
-        if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
-            switch button.label {
-        case "Infantry":
-            troop.texture = infantry
-            troop.recruitment_cost = 2
-            troop.troop_size = 1
-            troop.unit_type = "infantry"
-            troop.movement = 2
-             if p_ptr.treasury >= troop.recruitment_cost{
-            append(&p_ptr.troops, troop)
-            p_ptr.treasury -= troop.recruitment_cost
-            }
-        case "Crossbow":
-            troop.texture = crossbowmen
-            troop.recruitment_cost = 4
-            troop.troop_size = 1
-            troop.unit_type = "crossbow"
-            troop.movement = 3
-            if p_ptr.treasury >= troop.recruitment_cost{
-            append(&p_ptr.troops, troop)
-            p_ptr.treasury -= troop.recruitment_cost
-            }
-        case "Cavalry":
-            troop.texture = cavalry
-            troop.recruitment_cost = 6
-            troop.troop_size = 1
-            troop.unit_type = "cavalry"
-            troop.movement = 5
-            if p_ptr.treasury >= troop.recruitment_cost{
-            append(&p_ptr.troops, troop)
-            p_ptr.treasury -= troop.recruitment_cost
-            }
-    }
-        }
-    }
-}
     if action == "move" {
+        moving = true
         point := rl.GetMousePosition()
         for button in menu1.buttons {
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
@@ -181,7 +142,7 @@ for !rl.WindowShouldClose(){
         
        
     }
-// Need to add logic that only allows you to place troops that player has in his army - look at language in the move proc in the logic file
+
 if battle_screen{
     troop_type := [3]rl.Texture2D {infantry, crossbowmen, cavalry}
     start_screen = false
@@ -229,6 +190,9 @@ if !start_screen {
 }
 
 rl.EndDrawing()
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 
 }
 

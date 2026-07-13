@@ -72,7 +72,8 @@ player_action :: proc(tile_map: [dynamic]Tile, player_ptr: ^Player, point: rl.Ve
                 tile.texture = town_texture
             case "spy":
                 fmt.printf("%s: %d, tile number: %d \n invaded: %v \n", tile.kind, tile.production_value, i, tile.invaded)
-  
+
+             
             case "move":
                 for &troop in player_ptr.troops {
                     if troop.unit_type == unit && !troop.moved{

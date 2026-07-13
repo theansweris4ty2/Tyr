@@ -35,7 +35,7 @@ Troop_Tile::struct {
     troop_size: i32,
     unit_type: string,
     movement: i32,
-    moved: bool
+    moved
     
 }
 

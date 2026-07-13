@@ -33,6 +33,8 @@ start_screen : = true
 map_screen : bool
 menu : bool
 action: string
+recruiting: bool
+moving: bool
 unit: string
 camera := rl.Camera2D{{100,70}, {100, 70}, 0, 1.25}
 rl.PlayMusicStream(opening_song)
@@ -49,6 +51,8 @@ for !rl.WindowShouldClose(){
     if rl.IsKeyPressed(.M){
         if !menu {
             menu = true
+            recruiting = false
+            moving = false
             action = ""
         } else {
             menu = false
@@ -75,24 +79,26 @@ for !rl.WindowShouldClose(){
                         action = "produce"
                     case "Recruit":
                         action = "recruit"
-                        
+                        recruiting = true
+                        menu = false
                     case "Build":
                         action = "build"
                     case "Spy":
                         action = "spy"
                     case "Move":
                         action = "move"
-
+                        menu = false
                     case "Quit":
                         rl.CloseWindow()
                 }
             }
         }
 }
-    if action == "recruit"{
+    if action == "recruit" && !menu{
+        recruiting = true
         troop: Troop_Tile
         point := rl.GetMousePosition()
-        for button in menu1.buttons {
+        for button in recruit_menu.buttons {
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
             switch button.label {
         case "Infantry":
@@ -130,8 +136,9 @@ for !rl.WindowShouldClose(){
     }
 }
     if action == "move" {
+        moving = true
         point := rl.GetMousePosition()
-        for button in menu1.buttons {
+        for button in recruit_menu.buttons {
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
             switch button.label {
                 case "Infantry":
@@ -181,7 +188,7 @@ for !rl.WindowShouldClose(){
         
        
     }
-// Need to add logic that only allows you to place troops that player has in his army - look at language in the move proc in the logic file
+
 if battle_screen{
     troop_type := [3]rl.Texture2D {infantry, crossbowmen, cavalry}
     start_screen = false
@@ -220,15 +227,23 @@ if battle_screen{
 rl.EndMode2D()
 if menu {
     rl.DrawRectangle(i32(menu1.rect.x), i32(menu1.rect.y), i32(menu1.rect.width), i32(menu1.rect.height), SLATE)
+    moving = false
+    recruiting = false
    draw_ui(menu1.buttons)
 }
-
+if recruiting || moving {
+    rl.DrawRectangle(i32(recruit_menu.rect.x), i32(recruit_menu.rect.y), i32(recruit_menu.rect.width), i32(recruit_menu.rect.height), SLATE)
+   draw_ui(recruit_menu.buttons)
+}
 
 if !start_screen {
     print_player_stats(p_ptr)
 }
 
 rl.EndDrawing()
+for troop in p_ptr.troops {
+    fmt.println(troop.rect.x)
+}
 
 }
 
