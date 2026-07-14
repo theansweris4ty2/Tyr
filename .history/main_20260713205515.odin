@@ -179,11 +179,10 @@ for !rl.WindowShouldClose(){
         draw_map(tile_map)
         player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
         for tile in tile_map {
-        if tile.invaded && tile.occupied {
-        battle_screen = true
-        start_screen = false
-        map_screen = false
-        menu = false
+            if tile.invaded && tile.occupied {
+            battle_screen = true
+            start_screen = false
+            map_screen = false
     }
 }
        
@@ -197,8 +196,8 @@ if battle_screen{
     draw_map(battle_map)
     draw_ui (battle_buttons)
     for button in battle_buttons {
-            if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
-                switch button.label {
+            if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT) && !menu{
+                switch button.label{
                     case "Infantry":
                         active_troops = 0
                        

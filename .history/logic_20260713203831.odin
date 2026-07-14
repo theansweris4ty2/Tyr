@@ -101,8 +101,7 @@ generate_map::proc(texture: rl.Texture, water: rl.Texture, forest: rl.Texture, o
             production_value := rand.int32_range(1,5)
             invasion := rand.int32_range(1, 100)
             switch invasion {
-                // These numbers are only this high to assist with testing of battle logic
-                case 1..=98:
+                case 1..=35:
                     invaded= true
                 case 99..=100:
                     invaded = false  

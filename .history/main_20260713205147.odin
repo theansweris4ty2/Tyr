@@ -179,11 +179,10 @@ for !rl.WindowShouldClose(){
         draw_map(tile_map)
         player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
         for tile in tile_map {
-        if tile.invaded && tile.occupied {
-        battle_screen = true
-        start_screen = false
-        map_screen = false
-        menu = false
+            if tile.invaded && tile.occupied {
+            battle_screen = true
+            start_screen = false
+            map_screen = false
     }
 }
        

@@ -46,7 +46,14 @@ for !rl.WindowShouldClose(){
 
     
 // Try to refactor to combine menu into a single proc in the logic file
-    
+    for tile in tile_map {
+    if tile.invaded && tile.occupied {
+        battle_screen = true
+        start_screen = false
+        map_screen = false
+        menu = false
+    }
+}
     if rl.IsKeyPressed(.M){
         if !menu {
             menu = true
@@ -71,6 +78,7 @@ for !rl.WindowShouldClose(){
                         battle_screen = true
                         start_screen = false
                         map_screen = false
+                        menu = false
                     case "Produce":
                         action = "produce"
                     case "Recruit":
@@ -178,18 +186,10 @@ for !rl.WindowShouldClose(){
         battle_screen = false
         draw_map(tile_map)
         player_action(tile_map, p_ptr, point, action, town, menu, infantry, crossbowmen, cavalry, unit)
-        for tile in tile_map {
-        if tile.invaded && tile.occupied {
-        battle_screen = true
-        start_screen = false
-        map_screen = false
-        menu = false
-    }
-}
+        
        
     }
 // TODO: Need to add logic that only allows you to place troops that player has in his army - look at language in the move proc in the logic file
-
 if battle_screen{
     troop_type := [3]rl.Texture2D {infantry, crossbowmen, cavalry}
     start_screen = false
