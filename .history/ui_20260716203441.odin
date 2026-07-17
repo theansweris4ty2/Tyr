@@ -1,0 +1,43 @@
+package Tyr
+import "core:fmt"
+import "core:math/rand"
+import rl "vendor:raylib"
+
+SLATE :: rl.Color {123, 111, 131, 170}
+BRICK :: rl.Color{156, 67, 0, 255}
+OCEAN_BLUE :: rl.Color{79, 166, 235, 255}
+FOREST_GREEN :: rl.Color{81, 125, 25, 255}
+WHEAT_GOLD :: rl.Color{255, 220, 115, 180}
+KHAKI :: rl.Color{150, 119, 63, 255}
+
+Button :: struct {
+    rect: rl.Rectangle,
+    color: rl.Color,
+    label: cstring,
+    x_text_offset: f32
+}
+
+Menu :: struct {
+    rect: rl.Rectangle,
+    buttons: [dynamic; 20]Button,
+}
+
+
+start_buttons: [dynamic; 20]Button = {Button{{500, 400, 200, 50}, WHEAT_GOLD, "New Game", 30}, Button{{500, 475, 200, 50}, WHEAT_GOLD, "Saved Game", 10}, Button{{500, 550, 200, 50}, WHEAT_GOLD, "Quit", 75}}
+menu1_rect: rl.Rectangle = {200, 200, 800, 600}
+menu_buttons: [dynamic; 20]Button = {Button{{menu1_rect.x + 90, menu1_rect.y + 60, 180, 50}, WHEAT_GOLD, "Main Menu", 10}, Button{{menu1_rect.x + 300, menu1_rect.y + 70, 180, 50}, WHEAT_GOLD, "Save", 55}, Button{{menu1_rect.x + 510, menu1_rect.y + 60, 180, 50}, WHEAT_GOLD, "Quit", 50} , Button{{menu1_rect.x + 10, menu1_rect.y + 150, 180, 50}, WHEAT_GOLD, "Produce", 30}, Button{{menu1_rect.x + 200, menu1_rect.y + 150, 180, 50}, WHEAT_GOLD, "Spy", 50}, Button{{menu1_rect.x + 400, menu1_rect.y + 150, 180, 50}, WHEAT_GOLD, "Build", 50}, Button{{menu1_rect.x + 610, menu1_rect.y + 150, 180, 50}, WHEAT_GOLD, "Tax", 50},  Button{{menu1_rect.x + 190, menu1_rect.y + 250, 180, 50}, WHEAT_GOLD, "Move", 50}, Button{{menu1_rect.x + 400, menu1_rect.y + 250, 180, 50}, WHEAT_GOLD, "Recruit", 40}, Button{{menu1_rect.x + 80, menu1_rect.y + 320, 180, 50}, WHEAT_GOLD, "Infantry", 30}, Button{{menu1_rect.x + 290, menu1_rect.y + 320, 180, 50}, WHEAT_GOLD, "Crossbow", 20}, Button{{menu1_rect.x + 500, menu1_rect.y + 320, 180, 50}, WHEAT_GOLD, "Cavalry", 40}, Button{{menu1_rect.x + 190, menu1_rect.y + 420, 180, 50}, WHEAT_GOLD, "Buy", 50}, Button{{menu1_rect.x + 400, menu1_rect.y + 420, 180, 50}, WHEAT_GOLD, "Sell", 50}, Button{{menu1_rect.x + 80, menu1_rect.y + 490, 180, 50}, WHEAT_GOLD, "Grain", 40}, Button{{menu1_rect.x + 290, menu1_rect.y + 490, 180, 50}, WHEAT_GOLD, "Lumber", 30}, Button{{menu1_rect.x + 500, menu1_rect.y + 490, 180, 50}, WHEAT_GOLD, "Ore", 60}}
+menu1: Menu = {menu1_rect, menu_buttons}
+/* TODO: Add buttons to battle_buttons for additional battle actions including placement of troops which should fix issue with accidental placement. 
+*/
+battle_buttons: [dynamic; 20]Button = {Button{{300, 655, 180, 50}, WHEAT_GOLD, "Infantry", 30}, Button{{520, 655, 180, 50}, WHEAT_GOLD, "Crossbow", 30}, Button{{740, 655, 180, 50}, WHEAT_GOLD, "Cavalry", 30}}
+
+
+
+
+
+
+
+
+
+
+
