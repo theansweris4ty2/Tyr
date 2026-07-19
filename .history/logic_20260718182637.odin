@@ -15,7 +15,7 @@ roll_dice :: proc() -> (i32, i32, i32){
 
 
 taxation :: proc(player_ptr: ^Player, rate: i32){
-    player_ptr.treasury += (rate * player_ptr.territory)
+    player_ptr.treasury += rate * player_ptr.territory
 }
 
 // TODO: Add logic for battle actions and UI for battle screen
@@ -27,7 +27,33 @@ war :: proc(player_ptr: ^Player, index: i32){
 }
 
 */
+sell_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
 
+    switch goods {
+        case "grain":
+            player_ptr.grain -= amount
+            player_ptr.treasury += market[goods] * amount
+        case "ore": 
+            player_ptr.ore -= amount
+            player_ptr.treasury += market[goods] * amount
+        case "lumber":
+            player_ptr.lumber -= amount
+            player_ptr.treasury += market[goods] * amount
+    }
+}
+
+buy_goods :: proc(player_ptr: ^Player, goods: string, amount: i32, market: Market){
+
+    player_ptr.treasury -= market[goods] * amount
+    switch goods {
+        case "grain":
+            player_ptr.grain += amount
+        case "ore": 
+            player_ptr.ore += amount
+        case "lumber":
+            player_ptr.lumber += amount
+    }
+}
 
 produce :: proc(tile: ^Tile, player: ^Player){
     if !tile.harvested{

@@ -22,7 +22,7 @@ defer free(p_ptr)
 defer delete(p_ptr.troops)
 market := make(Market)
 market["grain"] = 1
-market["lumber"] = 1
+market["umber"] = 1
 market["ore"] = 1
 defer delete(market)
 water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background, opening_song := load_assets()
@@ -39,7 +39,6 @@ menu : bool
 battle_ended: bool
 action: string
 unit: string
-tax_rate: i32 = 1
 camera := rl.Camera2D{{100,70}, {100, 70}, 0, 1.25}
 rl.PlayMusicStream(opening_song)
 
@@ -89,8 +88,7 @@ for !rl.WindowShouldClose(){
                         action = "move"
                     case "Tax":
                         action = "tax"
-                        // p_ptr.treasury += (tax_rate * p_ptr.territory)
-                        taxation(p_ptr, tax_rate)
+                        taxation(p_ptr, 1)
                     case "Map":
                         battle_ended = true
                         map_screen = true
@@ -155,19 +153,16 @@ if action == "sell"{
             case "Grain":
                 if p_ptr.grain > 0 {
                     goods = "grain"
-                    p_ptr.grain -= 1
-                    p_ptr.treasury += market["grain"]
+                    sell_goods(p_ptr, goods, 1, 1)
                 }
                 
             case "Lumber":
                 if p_ptr.lumber > 0 {
-                    p_ptr.lumber -= 1
-                    p_ptr.treasury += market["lumber"]
+                    sell_goods(p_ptr, goods, 1, market["lumber"])
                 }
             case "Ore":
                 if p_ptr.ore > 0 {
-                    p_ptr.ore -= 1
-                    p_ptr.treasury += market["ore"]
+                    sell_goods(p_ptr, goods, 1, market["ore"])
         
         }
     }
@@ -182,16 +177,14 @@ if action == "buy"{
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
             switch button.label {
             case "Grain":
-                    p_ptr.grain += 1
-                    p_ptr.treasury -= 1
+                    buy_goods(p_ptr, goods, 1, market["grain"])
                 
             case "Lumber":
                    goods = "lumber"
-                   p_ptr.lumber += 1
-                    p_ptr.treasury -= 1
+                    buy_goods(p_ptr, goods, 1, market["lumber"])
             case "Ore":
-                    p_ptr.ore += 1
-                    p_ptr.treasury -= 1
+                    goods = "ore"
+                    buy_goods(p_ptr, goods, 1, market["ore"])
     }
     }
 }

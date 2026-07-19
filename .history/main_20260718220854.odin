@@ -89,8 +89,7 @@ for !rl.WindowShouldClose(){
                         action = "move"
                     case "Tax":
                         action = "tax"
-                        // p_ptr.treasury += (tax_rate * p_ptr.territory)
-                        taxation(p_ptr, tax_rate)
+                        p_ptr.treasury += (tax_rate * p_ptr.territory)
                     case "Map":
                         battle_ended = true
                         map_screen = true

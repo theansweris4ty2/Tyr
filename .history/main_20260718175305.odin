@@ -21,9 +21,9 @@ p_ptr.treasury = 100
 defer free(p_ptr)
 defer delete(p_ptr.troops)
 market := make(Market)
-market["grain"] = 1
-market["lumber"] = 1
-market["ore"] = 1
+market["Grain"] = 1
+market["Lumber"] = 1
+market["Ore"] = 1
 defer delete(market)
 water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background, opening_song := load_assets()
 defer unload_textures(water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background)
@@ -39,7 +39,7 @@ menu : bool
 battle_ended: bool
 action: string
 unit: string
-tax_rate: i32 = 1
+goods: string
 camera := rl.Camera2D{{100,70}, {100, 70}, 0, 1.25}
 rl.PlayMusicStream(opening_song)
 
@@ -89,8 +89,7 @@ for !rl.WindowShouldClose(){
                         action = "move"
                     case "Tax":
                         action = "tax"
-                        // p_ptr.treasury += (tax_rate * p_ptr.territory)
-                        taxation(p_ptr, tax_rate)
+                        taxation(p_ptr, 1)
                     case "Map":
                         battle_ended = true
                         map_screen = true
@@ -155,19 +154,18 @@ if action == "sell"{
             case "Grain":
                 if p_ptr.grain > 0 {
                     goods = "grain"
-                    p_ptr.grain -= 1
-                    p_ptr.treasury += market["grain"]
+                    sell_goods(p_ptr, goods, 1, market)
                 }
                 
             case "Lumber":
                 if p_ptr.lumber > 0 {
-                    p_ptr.lumber -= 1
-                    p_ptr.treasury += market["lumber"]
+                   goods = "lumber"
+                    sell_goods(p_ptr, goods, 1, market)
                 }
             case "Ore":
                 if p_ptr.ore > 0 {
-                    p_ptr.ore -= 1
-                    p_ptr.treasury += market["ore"]
+                    goods = "ore"
+                    sell_goods(p_ptr, goods, 1, market)
         
         }
     }
@@ -182,16 +180,22 @@ if action == "buy"{
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
             switch button.label {
             case "Grain":
-                    p_ptr.grain += 1
-                    p_ptr.treasury -= 1
+                goods = "grain"
+                if p_ptr.treasury >= market {
+                    sell_goods(p_ptr, goods, 1, market)
+                }
                 
             case "Lumber":
+                if p_ptr.lumber > 0 {
                    goods = "lumber"
-                   p_ptr.lumber += 1
-                    p_ptr.treasury -= 1
+                    sell_goods(p_ptr, goods, 1, market)
+                }
             case "Ore":
-                    p_ptr.ore += 1
-                    p_ptr.treasury -= 1
+                if p_ptr.ore > 0 {
+                    goods = "ore"
+                    sell_goods(p_ptr, goods, 1, market)
+        
+        }
     }
     }
 }

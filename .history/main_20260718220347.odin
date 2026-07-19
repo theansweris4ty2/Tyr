@@ -39,7 +39,6 @@ menu : bool
 battle_ended: bool
 action: string
 unit: string
-tax_rate: i32 = 1
 camera := rl.Camera2D{{100,70}, {100, 70}, 0, 1.25}
 rl.PlayMusicStream(opening_song)
 
@@ -89,8 +88,7 @@ for !rl.WindowShouldClose(){
                         action = "move"
                     case "Tax":
                         action = "tax"
-                        // p_ptr.treasury += (tax_rate * p_ptr.territory)
-                        taxation(p_ptr, tax_rate)
+                        taxation(p_ptr, 1)
                     case "Map":
                         battle_ended = true
                         map_screen = true

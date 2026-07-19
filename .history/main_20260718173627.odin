@@ -21,9 +21,9 @@ p_ptr.treasury = 100
 defer free(p_ptr)
 defer delete(p_ptr.troops)
 market := make(Market)
-market["grain"] = 1
-market["lumber"] = 1
-market["ore"] = 1
+market["Grain"] = 1
+market["Lumber"] = 1
+market["Ore"] = 1
 defer delete(market)
 water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background, opening_song := load_assets()
 defer unload_textures(water, ore, wheat, forest, castle, town, battlefield1, battlefield2, battlefield3, battlefield4, infantry, crossbowmen, cavalry, background)
@@ -39,7 +39,6 @@ menu : bool
 battle_ended: bool
 action: string
 unit: string
-tax_rate: i32 = 1
 camera := rl.Camera2D{{100,70}, {100, 70}, 0, 1.25}
 rl.PlayMusicStream(opening_song)
 
@@ -89,16 +88,13 @@ for !rl.WindowShouldClose(){
                         action = "move"
                     case "Tax":
                         action = "tax"
-                        // p_ptr.treasury += (tax_rate * p_ptr.territory)
-                        taxation(p_ptr, tax_rate)
+                        taxation(p_ptr, 1)
                     case "Map":
                         battle_ended = true
                         map_screen = true
                         fmt.println(battle_screen)
                     case "Sell":
                         action = "sell"
-                    case "Buy":
-                        action = "buy"
                     case "Quit":
                         rl.CloseWindow()
                 }
@@ -146,55 +142,19 @@ for !rl.WindowShouldClose(){
     }
 }
 
-if action == "sell"{
-        goods: string
+if action == "recruit"{
+        troop: Troop_Tile
         point := rl.GetMousePosition()
         for button in menu1.buttons {
         if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
             switch button.label {
             case "Grain":
-                if p_ptr.grain > 0 {
-                    goods = "grain"
-                    p_ptr.grain -= 1
-                    p_ptr.treasury += market["grain"]
-                }
-                
+                sell_goods(p_ptr, market["Grain"], 1)
             case "Lumber":
-                if p_ptr.lumber > 0 {
-                    p_ptr.lumber -= 1
-                    p_ptr.treasury += market["lumber"]
-                }
-            case "Ore":
-                if p_ptr.ore > 0 {
-                    p_ptr.ore -= 1
-                    p_ptr.treasury += market["ore"]
+                sell_goods(p_ptr, )
         
         }
     }
-    }
-}
-}
-
-if action == "buy"{
-    goods: string    
-    point := rl.GetMousePosition()
-        for button in menu1.buttons {
-        if rl.CheckCollisionPointRec(point, button.rect) && rl.IsMouseButtonPressed(.LEFT){
-            switch button.label {
-            case "Grain":
-                    p_ptr.grain += 1
-                    p_ptr.treasury -= 1
-                
-            case "Lumber":
-                   goods = "lumber"
-                   p_ptr.lumber += 1
-                    p_ptr.treasury -= 1
-            case "Ore":
-                    p_ptr.ore += 1
-                    p_ptr.treasury -= 1
-    }
-    }
-}
 }
 
 

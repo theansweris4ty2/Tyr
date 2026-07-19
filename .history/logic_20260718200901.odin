@@ -15,7 +15,7 @@ roll_dice :: proc() -> (i32, i32, i32){
 
 
 taxation :: proc(player_ptr: ^Player, rate: i32){
-    player_ptr.treasury += (rate * player_ptr.territory)
+    player_ptr.treasury += rate * player_ptr.territory
 }
 
 // TODO: Add logic for battle actions and UI for battle screen
